@@ -1,0 +1,11 @@
+3D Guardian is Arduino based DIY gadget which can be used to monitor the environment and perform some actions (e.g. shut down your 3D printer)
+if the environment moves beyond a critical range. It is mainly designed to serve as a security device for 3D printers (will shut it down in 
+case of a trouble - elevated smoke, CO levels, high temperature etc.), but also serves as a thermostat and fan control if your printer is
+inside a cabinet with an exhaust pipe with a fan. 
+
+It uses two microcontrollers - Arduino Nano (folder ThreeD_Guardian) and ESP8266 NodeMCU devkit v0.9 (folder ThreeD_Guardian_ESP). Both
+are programmed using Arduino IDE. The two mcircocontrollers talk to each other via hardware serial connection.
+
+Full description can be found here:
+
+http://pulsar124.wikia.com/wiki/3D_Guardian
