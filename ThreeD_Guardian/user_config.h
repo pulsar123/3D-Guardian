@@ -5,12 +5,13 @@
 // +++++++++++++++++++++++++  Pins  +++++++++++++++++++++++++++++
 // Assumes we are using Arduino Nano
 // ATTENTION: in Arduino Nano, pins A6 and A7 cannot be used as digital pins (only as analogue input pins)
-// Digital pins:
 // The pins 0 and 1 (Rx0 and Tx1) are reserved for serial communications with the WiFi module (esp8266 nodemcu devkit v0.9, or similar).
 // Don't use the Arduino's 3.3V out voltage for ESP - it doen't have the power to drive the ESP module. Instead, get the "esp8266 nodemcu devkit v0.9"
 // module (3.50$ on ebay) and power it by +5V you can take from the Arduino Nano. (So both Arduino and ESP will be powered by a single micro USB cable.)
+
 const byte SOUND_PIN = 2; // Speaker pin (digital out); needs some elements to be usable for a piezo buzzer control
 const byte FAN_PIN = 3; // Pin to control the exhaust fan in the printer's enclosure (connect it to the control - PWM - wire of a 4-wire fan)
+
 // Pins used by the display (LCD 1602);
 // This is the one I'm using: https://www.dfrobot.com/wiki/index.php/Arduino_LCD_KeyPad_Shield_(SKU:_DFR0009)
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
@@ -23,6 +24,7 @@ const byte STEP_PIN = 11; // Control of Step for the motor driver
 
 const byte SSR_PIN = 12; // Pin to control the solid state relay in the external power module (to shut down the printer in case of alarm)
 const byte LEDY_PIN = 13; // Yellow LED (training mode) pin (TX1), via 220 Ohm
+
 // Analogue pins:
 const byte BUTTONS_PIN = A0; // The analog input pin for the buttons on the display
 // The remaining seven analogue pins (A1 ... A7) of Arduino Nano are assigned to up to seven environment sensors below (in "Sensor stuff")
@@ -40,15 +42,17 @@ const byte BUTTONS_PIN = A0; // The analog input pin for the buttons on the disp
    to +Vin), which will divide by ~5x, so 15V becomes ~3V (=626 in raw units).
 */
 
-const byte N_SENSORS = 4; // Number of sensors
+const byte N_SENSORS = 7; // Number of sensors
 // Basic sensor data (they will be used in this order):
 struct sensor_struc sensor[N_SENSORS] = {
   {name: "Smo", pin: A2, type: 0, init_delay: 600000}, // Smoke sensor (MQ-2; raw data)
   {name: "CO ", pin: A3, type: 0, init_delay: 600000}, // CO sensor (MQ-8; raw data)
+  {name: "Cur", pin: A7, type: 0, init_delay: 0}, // current sensor (ACS712; raw data)
+  {name: "Vol", pin: A6, type: 0, init_delay: 0}, // current sensor (ACS712; raw data)
   {name: "Th1", pin: A1, type: 2, init_delay: 0}, // Enclosure thermistor (Celcius data)
-  //  {name: "Th2", pin: A4, type: 1, init_delay: 0}, // Motherboard thermistor (Celcius data)
-  //  {name: "PSU", pin: A5, type: 1, init_delay: 0}, // PSU thermistor (Celcius data)
-  {name: "Bed", pin: A7, type: 3, init_delay: 0, scaler: 0.1, pin2: A6, divider: 0.3} // Heated bed resistance sensor (ACS712 sensor for the current, voltage divider for the voltage)
+  {name: "Th2", pin: A4, type: 1, init_delay: 0}, // Motherboard thermistor (Celcius data)
+  {name: "PSU", pin: A5, type: 1, init_delay: 0}, // PSU thermistor (Celcius data)
+//  {name: "Bed", pin: A7, type: 3, init_delay: 0, scaler: 0.1, pin2: A6, divider: 0.3} // Heated bed resistance sensor (ACS712 sensor for the current, voltage divider for the voltage)
 };
 const int SENS_DT = 10; //  Read sensors every SENS_DT ms
 const int SENS_N = 100; // Compute the current sensor value by averaging over this many measurements
@@ -96,7 +100,7 @@ const long int CHIRP_PERIOD = 10000; // Time interval (ms) between chirps, in WA
 // Exhaust fan stuff (controlled via PWM at 31 kHz)
 //  If defined, it is assumed that the fan doesn't have PWM  control, and can only be truned on (g.duty=255) and off (g.duty=0).
 //  In this case FAN_PIN turns on/off the fan via a MOSFET
-#define NO_PWM
+//#define NO_PWM
 const int DT_CASE_MIN = 10; // Shortest allowed time for fan to run (seconds) during case clearing
 const int DT_CASE_MAX = 990; // Longest allowed time for fan to run (seconds) during case clearing
 const float FAN_SCALE = 10.0; // Sensitivity of the fan; change in fan's duty cycle for each 1C temperature difference, at each cycle

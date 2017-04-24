@@ -16,10 +16,6 @@
 #include "config.h"
 
 /* Notes:
-  - The loudest option for the sound alearm: a piezo buzzer from an old CO detector, with three wires (requires 3 resistors and a transistor to operate).
-    This ideally needs a high voltage (~12-15V; could be as high as 30V for some buzzers); one way to do it is to have a cheap DC-DC step up converter (to convert +5V to say +15V); the
-    buzzer circuit is powered from the 15V via a transistor, which is in turn controlled by the Arduino.
-
   - Thermistor 1: A1 pullup resistor is 35.98k. Measured in the interval +1 ... +100C, the Steinhart–Hart equation for my "NTC MF58 3950 B 50K" thermistor
    from ebay is
        1/T = 3.372535e-04 + 2.791091e-04*ln(R) - 6.351293e-09*[ln(R)]^3

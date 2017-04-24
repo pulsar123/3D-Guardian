@@ -12,7 +12,7 @@ struct sensor_EEPROM_struc
   int min; // Smallest sensor reading from training sessions
   int max; // Largest sensor reading from training sessions
   int zero; // Raw value corresponding to zero current (only for current/resistance sensors)
-  unsigned long int sum; // Running sum for sensor readings from training sessions (warning: this can overflow after very long traing time; with the current settings, it'll happen after ~100 days of training)
+  unsigned long int sum; // Running sum for sensor readings from training sessions (warning: this can overflow after very long training time; with the current settings, it'll happen after ~100 days of training)
   unsigned long int N; // Number of sensor readings from training sessions
 };
 
@@ -21,10 +21,10 @@ struct sensor_struc
 {
   char name[4]; // Short (3-letter) name of the sensor
   byte pin; // Input analogue pin used for the sensor
-  byte type; // Type of sensor (0: raw data sensor - CO, smoke, IR etc; 1: thermistor sensor; 2: one thermistor sensor used to control enclosure temperature with a fan)
+  byte type; // Type of sensor (0: raw data sensor - CO, smoke, IR etc; 1: thermistor sensor; 2: one thermistor sensor used to control enclosure temperature with a fan; 3: resistivity sensor consisting of current and voltage sensors)
   unsigned long int init_delay; // Initial delay in ms before the sensor starts reading (used mostly for CO/smoke sensors, which need some warm up time)
   // Parameters only used for a resistance sensor (current sensor + voltage sensor):
-  float scaler; // V/A scaler for the current sensor
+  float scaler; // V/A scaler (sensitivity) for the current sensor; =0.1 V/A for the 20A model of ACS712
   byte pin2; // Second analogue pin (only used for a resistance sensor, to measure voltage)  
   float divider; // Voltage dividing factor, to convert from the heated bed voltage to <5V
   byte on; // The sensor readings enabled (1) / disabled (0)

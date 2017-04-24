@@ -6,7 +6,7 @@ void read_sensors ()
   int x;
   long int y;
   float T;
-  int V1_raw, V2_raw, V_crit_raw, Vmax_raw;
+  int V1_raw, V2_raw, V_crit_raw, Vmax_raw, I_raw;
 
   // Going over all sensors in a loop, and reading the data if its due
   for (byte i = 0; i < N_SENSORS; i++)
@@ -40,8 +40,9 @@ void read_sensors ()
           Vmax_raw = V1_raw;
         else
           Vmax_raw = V2_raw;
+        I_raw = x - sensor[i].train.zero;
         // Inverse resistance (1/Ohms) normalized by the expected bed resistance (R_BED), converted to raw units (by *512)
-        x = (int)(512 * R_BED * sensor[i].divider / sensor[i].scaler * (x - sensor[i].train.zero) / Vmax_raw + 0.5);
+        x = (int)(512 * R_BED * sensor[i].divider / sensor[i].scaler * (float)I_raw / (float)Vmax_raw + 0.5);
       }
 
       sensor[i].sum = sensor[i].sum + x;
