@@ -51,6 +51,10 @@ void initialize(byte factory_reset)
       // Critical voltage (in raw units) to detect whether to make a resistance measurement at this point in time (make measurement if V1,2_raw > V_crit_raw)
       sensor[i].V_crit_raw = (int)(1024.0 * V_CRIT * sensor[i].divider / 5.0 + 0.5);
     }
+#ifdef DEBUG
+    // No initial sensor read delay in DEBUG mode:
+    sensor[i].init_delay = 0;
+#endif
   }
 
 
@@ -59,9 +63,11 @@ void initialize(byte factory_reset)
   if (g.alarm == TRAINING)
     training(1);
 
-
-
   g.fan_mode_old = g.fan_mode;
+
+#ifdef DEBUG
+  Serial.println("");
+#endif
 
   return;
 }

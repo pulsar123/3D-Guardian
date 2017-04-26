@@ -2,6 +2,10 @@
   File containing all user-configurable input parameters. It is read once, inside config.h file.
 */
 
+// If defined, the serial interfaced is used to continuously print out the sensor data (instead of communicating with the ESP board).
+// The physical serial connection between the two boards should be disabled.
+#define DEBUG
+
 // +++++++++++++++++++++++++  Pins  +++++++++++++++++++++++++++++
 // Assumes we are using Arduino Nano
 // ATTENTION: in Arduino Nano, pins A6 and A7 cannot be used as digital pins (only as analogue input pins)

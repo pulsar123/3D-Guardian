@@ -198,15 +198,16 @@ byte translate (byte old_id)
 void update_duty ()
 // Run it after every change of g.duty of the fan
 {
+  int loc_duty = g.duty;
 
 #ifdef NO_PWM
   // If the fan doesn't have PWM control, g.duty can only be either 0 (fan off) or 255 (fan on):
-  if (g.duty > 0)
-    g.duty = 255;
+  if (loc_duty > 0)
+    loc_duty = 255;
 #endif
 
-  digitalWrite(FAN_PIN, g.duty);
-  g.duty_perc = (int)(100 * (float)g.duty / (float)MAX_DUTY + 0.5);
+  analogWrite(FAN_PIN, loc_duty);
+  g.duty_perc = (int)(100 * (float)loc_duty / (float)MAX_DUTY + 0.5);
 
   return;
 }

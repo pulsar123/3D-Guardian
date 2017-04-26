@@ -12,7 +12,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <EEPROM.h>
-#include <LiquidCrystal.h>
+#include <LiquidCrystal.h>g
 #include "config.h"
 
 /* Notes:
@@ -135,6 +135,7 @@ void setup()
   g.N_serial = N_SERIAL_MAX - 1;
   g.bad_sensor = 0;
   // The serial connection to ESP8266 controller, for the WiFi interface:
+  // (In DEBUG mode it is used to print sensor data to PC instead)
   Serial.begin(115200);
 
   // Initializing the menu items (this changes all ids in MenuItem[] structures)

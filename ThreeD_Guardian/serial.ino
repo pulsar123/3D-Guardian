@@ -40,6 +40,9 @@ void serial()
 // Module to communicate with the WiFi module ESP8266 via serial connection.
 {
 
+#ifndef DEBUG
+  // In DEBUG mode, we use serial to print sensor data regularly, instead of communicating with ESP board
+
   // Serial reception:
   if (g.t - g.serial_in_t0 > SERIAL_IN_DT)
   {
@@ -133,6 +136,8 @@ void serial()
     // Sending the buffer to ESP controller:
     Serial.print(g.buffer);
   }
+
+#endif // DEBUG  
 
   return;
 }
