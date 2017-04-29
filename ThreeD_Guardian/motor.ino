@@ -12,7 +12,7 @@
 void motor ()
 {
 
-  // Wee need microsecond accuracy timer for the stepper motor control
+  // We need microsecond accuracy timer for the stepper motor control
   g.t_us = micros();
 
   if (g.motor == 0 && g.duty > 0 && g.t - g.t_release > DT_RELEASE)

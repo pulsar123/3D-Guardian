@@ -55,7 +55,7 @@ struct sensor_struc sensor[N_SENSORS] = {
   {name: "Vol", pin: A6, type: 0, init_delay: 0}, // current sensor (ACS712; raw data)
   {name: "Th1", pin: A1, type: 2, init_delay: 0}, // Enclosure thermistor (Celcius data)
   {name: "Th2", pin: A4, type: 1, init_delay: 0}, // Motherboard thermistor (Celcius data)
-  {name: "PSU", pin: A5, type: 1, init_delay: 0}, // PSU thermistor (Celcius data)
+  {name: "PSU", pin: A5, type: 1, init_delay: 0} // PSU thermistor (Celcius data)
 //  {name: "Bed", pin: A7, type: 3, init_delay: 0, scaler: 0.1, pin2: A6, divider: 0.3} // Heated bed resistance sensor (ACS712 sensor for the current, voltage divider for the voltage)
 };
 const int SENS_DT = 10; //  Read sensors every SENS_DT ms
