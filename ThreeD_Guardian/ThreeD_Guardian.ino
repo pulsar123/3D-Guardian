@@ -12,7 +12,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <EEPROM.h>
-#include <LiquidCrystal.h>g
+#include <LiquidCrystal.h>
 #include "config.h"
 
 /* Notes:
