@@ -95,6 +95,16 @@ void  serial_receive()
               mqtt_send(4, MQTT"/out/sensor4/max", &i);
               mqtt_send(4, MQTT"/out/sensor4/cur", &i);
               mqtt_send(4, MQTT"/out/sensor4/alarm", &i);
+              
+              mqtt_send(4, MQTT"/out/sensor5/min", &i);
+              mqtt_send(4, MQTT"/out/sensor5/max", &i);
+              mqtt_send(4, MQTT"/out/sensor5/cur", &i);
+              mqtt_send(4, MQTT"/out/sensor5/alarm", &i);
+              
+              mqtt_send(4, MQTT"/out/sensor6/min", &i);
+              mqtt_send(4, MQTT"/out/sensor6/max", &i);
+              mqtt_send(4, MQTT"/out/sensor6/cur", &i);
+              mqtt_send(4, MQTT"/out/sensor6/alarm", &i);
             }
             first_send = 0;
             // The length of the packet is i_ser-3:

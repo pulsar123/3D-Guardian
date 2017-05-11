@@ -443,7 +443,7 @@ void menu_dt_case (byte mode, byte line)
       break;
 
     case 2:
-      if (g.new_value < DT_CASE_MAX)
+      if (g.new_value <= DT_CASE_MAX - 10)
         g.new_value = g.new_value + 10;
       break;
 

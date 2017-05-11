@@ -51,17 +51,17 @@ const byte N_SENSORS = 7; // Number of sensors
 struct sensor_struc sensor[N_SENSORS] = {
   {name: "Smo", pin: A2, type: 0, init_delay: 600000}, // Smoke sensor (MQ-2; raw data)
   {name: "CO ", pin: A3, type: 0, init_delay: 600000}, // CO sensor (MQ-8; raw data)
-  {name: "Cur", pin: A7, type: 0, init_delay: 0}, // current sensor (ACS712; raw data)
-  {name: "Vol", pin: A6, type: 0, init_delay: 0}, // current sensor (ACS712; raw data)
+//  {name: "Cur", pin: A7, type: 0, init_delay: 0}, // current sensor (ACS712; raw data)
+//  {name: "Vol", pin: A6, type: 0, init_delay: 0}, // current sensor (ACS712; raw data)
   {name: "Th1", pin: A1, type: 2, init_delay: 0}, // Enclosure thermistor (Celcius data)
   {name: "Th2", pin: A4, type: 1, init_delay: 0}, // Motherboard thermistor (Celcius data)
-  {name: "PSU", pin: A5, type: 1, init_delay: 0} // PSU thermistor (Celcius data)
-//  {name: "Bed", pin: A7, type: 3, init_delay: 0, scaler: 0.1, pin2: A6, divider: 0.3} // Heated bed resistance sensor (ACS712 sensor for the current, voltage divider for the voltage)
+  {name: "PSU", pin: A5, type: 1, init_delay: 0}, // PSU thermistor (Celcius data)
+  {name: "Bed", pin: A7, type: 3, init_delay: 0, scaler: 0.1, pin2: A6, divider: 0.3} // Heated bed resistance sensor (ACS712 sensor for the current, voltage divider for the voltage)
 };
 const int SENS_DT = 10; //  Read sensors every SENS_DT ms
 const int SENS_N = 100; // Compute the current sensor value by averaging over this many measurements
-const float V_CRIT = 6; // Critical voltage (Volts) used in resistance sensors. Should be ~50% of the normal heated bed / hot end voltage
-const float R_BED = 1.1; // Resistance of the bed (Ohms)
+const float V_CRIT = 8; // Critical voltage (Volts) used in resistance sensors. Should be ~50% of the normal heated bed / hot end voltage
+const float R_BED = 1.5; // Resistance of the bed when hot (Ohms)
 
 // Alarm and warning constants (only used in GUARDING mode)
 // For type=0 and type=3 sensors:
