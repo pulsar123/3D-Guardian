@@ -46,8 +46,9 @@ void setup()
   pinMode(FAN_PIN, OUTPUT);
   pinMode(LEDY_PIN, OUTPUT);
   pinMode(STEP_PIN, OUTPUT);
-  pinMode(ENABLE_PIN, OUTPUT);
-  digitalWrite(ENABLE_PIN, HIGH); // Initially no holding torque
+  pinMode(SLEEP_PIN, OUTPUT);
+  digitalWrite(SLEEP_PIN, LOW); // Initially no holding torque
+  delay(1);
   digitalWrite(STEP_PIN, LOW);
   for (byte i = 0; i < N_SENSORS; i++)
   {

@@ -485,7 +485,7 @@ void menu_zero_current (byte mode, byte line)
       break;
 
     case 1:
-      // Assigning a positive value to *.zero for the current (resistance) sensor  is teh signal that the resistance sensor is enabled and can start normal training:
+      // Assigning a positive value to *.zero for the current (resistance) sensor  is the signal that the resistance sensor is enabled and can start normal training:
       sensor[g.current_sensor].train.zero = g.new_value;
       g.exit_menu = 1;
       break;

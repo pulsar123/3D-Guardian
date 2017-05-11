@@ -20,7 +20,8 @@ void motor ()
   {
     g.motor = 1;
     g.t0_motor = g.t_us;
-    digitalWrite(ENABLE_PIN, LOW); // Enabling the torque
+    digitalWrite(SLEEP_PIN, HIGH); // Enabling the torque
+    delay(1); // Required after waking up
     // The timing for the first microstep (us):
     g.t_next_step = t_motor (1);
   }
@@ -43,7 +44,7 @@ void motor ()
     // g.duty just became zero, after a full movement, so time to release the torque
   {
     g.motor = 0;
-    digitalWrite(ENABLE_PIN, HIGH); // Disabling the torque
+    digitalWrite(SLEEP_PIN, LOW); // Disabling the torque
     // Memorizing the release time in milliseconds:
     g.t_release = g.t;
   }

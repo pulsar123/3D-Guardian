@@ -4,7 +4,7 @@
 
 // If defined, the serial interfaced is used to continuously print out the sensor data (instead of communicating with the ESP board).
 // The physical serial connection between the two boards should be disabled.
-#define DEBUG
+//#define DEBUG
 
 // +++++++++++++++++++++++++  Pins  +++++++++++++++++++++++++++++
 // Assumes we are using Arduino Nano
@@ -23,7 +23,7 @@ LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 // Stepper driver pins (exhaust outlet control); in A4988 driver, connect RESET pin to the adjacent SLEEP pin, and use 100uF capacitor across the motor voltage pins
 // ( https://www.pololu.com/product/1182 )
 // The DIR pin of the driver has to be connected to either +5V or Ground, for the desired direction of the motor move (from the default state - exhaust closed, to exhaust open)
-const byte ENABLE_PIN = 10; // Control of Enable function of the stepper motor driver (A4988, EasyDriver and similar); LOW: enable motor; HIGH: disable motor:
+const byte SLEEP_PIN = 10; // Control of Sleep function of the stepper motor driver (A4988, EasyDriver and similar); LOW: disable motor; HIGH: enable motor; needs 1ms delay after waking up
 const byte STEP_PIN = 11; // Control of Step for the motor driver
 
 const byte SSR_PIN = 12; // Pin to control the solid state relay in the external power module (to shut down the printer in case of alarm)

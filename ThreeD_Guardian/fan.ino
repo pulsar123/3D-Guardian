@@ -44,7 +44,7 @@ void fan()
     }
   }
 
-  else
+  else if (g.fan_mode == 2)
     // Fan on
   {
     if (g.duty < MAX_DUTY)
