@@ -31,24 +31,18 @@ void temperature()
           client.publish(MQTT"/out/alarm", "1");
       }
 
-      if (MQTT_on)
-      {
-        i_mqtt_T++;
-        // Sending current temperature every 30 seconds:
-        if (i_mqtt_T == 30)
-        {
-          // We don't care about negative temperature values (usually if thermistor is disconnected):
-          if (T_int < 0)
-            T_int = 0;
-          i_mqtt_T = 0;
-          sprintf(str, "%d", T_int);
-          client.publish(MQTT"/SSR_temp", str);
-        }
-      }
+      if (T_int < 0)
+        T_int = 0;        
+      if (T_int > 999)
+        T_int = 999;
+      sprintf(str, MAGIC_EtoA"T%3d", T_int);
+      // Sending the SSR temperature value to Arduino every second:
+      Serial.print(str);
+
 
 #ifdef DEBUG
       // Transmit the A0_LOW and A0_HIGH parameters (raw A0 pin values when it is pulled down and up, respectively)
-//      client.publish("TEST/1", itoa(analogRead(TH_PIN)));
+      //      client.publish("TEST/1", itoa(analogRead(TH_PIN)));
 #endif
     }
   }

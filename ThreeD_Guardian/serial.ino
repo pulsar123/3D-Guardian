@@ -90,6 +90,15 @@ void serial()
           clear_the_case();
         }
 
+        else if (strncmp(&g.buffer[g.i_command[i]], "T", 1) == 0)
+          // Getting the SSR temperature (C) value from ESP:
+        {
+          strncpy(g.buf4, &g.buffer[g.i_command[i]+1], 3);
+          g.buf4[3] = '\0';
+          g.T_SSR = atoi(g.buf4);
+          g.SSR_temp = 1;
+        }
+
       }
     }
   }

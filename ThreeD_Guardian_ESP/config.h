@@ -56,7 +56,7 @@ long int DT_DEBOUNCE = 200; // Debouncing time for the panic button, in ms
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-const int BUF_SIZE = 110;
+const int BUF_SIZE = 130;
 char packet_old[BUF_SIZE], packet[BUF_SIZE];
 char debug[BUF_SIZE];
 char str[10];

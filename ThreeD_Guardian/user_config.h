@@ -39,6 +39,7 @@ const byte BUTTONS_PIN = A0; // The analog input pin for the buttons on the disp
      - 1: alarm thermistors (using Celsius degrees)
      - 2: enclosure thermistor (used both for alarms and for the thermostate - keeps the temperature inside the printer cabinet constant by operating the fan)
      - 3: resistance sensor (current sensor + voltage sensor) - for heated bed or hot end
+     - 4: SSR temperature (C; received from ESP via serial connection everyt second)
    Attention: type=3 sensors will not be enabled until they are manually trained from the menu, "Training"/"Init current" (detecting the raw current sensor measurement for zero current)
    Currently only one resistance sensor is supported. Resistance sensors use two analogue pins (for current and voltage sensing, .pin and .pin2, respectively).
    Voltage divider for the voltage sensing part should be such that the heated bed voltage (say, 15V) would be converted to Arduino-safe voltage (<5V), accounting for potential spikes
@@ -46,7 +47,7 @@ const byte BUTTONS_PIN = A0; // The analog input pin for the buttons on the disp
    to +Vin), which will divide by ~5x, so 15V becomes ~3V (=626 in raw units).
 */
 
-const byte N_SENSORS = 6; // Number of sensors
+const byte N_SENSORS = 7; // Number of sensors, including the SSR temperature received via serial interface from ESP board
 // Basic sensor data (they will be used in this order):
 struct sensor_struc sensor[N_SENSORS] = {
   {name: "Smo", pin: A2, type: 0, init_delay: 600000}, // Smoke sensor (MQ-2; raw data)
@@ -56,7 +57,8 @@ struct sensor_struc sensor[N_SENSORS] = {
   {name: "Th1", pin: A1, type: 2, init_delay: 0}, // Enclosure thermistor (Celcius data)
   {name: "Th2", pin: A4, type: 1, init_delay: 0}, // Motherboard thermistor (Celcius data)
   {name: "PSU", pin: A5, type: 1, init_delay: 0}, // PSU thermistor (Celcius data)
-  {name: "Bed", pin: A7, type: 3, init_delay: 0, scaler: 0.1, pin2: A6, divider: 0.15146} // Heated bed resistance sensor (ACS712 sensor for the current, voltage divider for the voltage)
+  {name: "Bed", pin: A7, type: 3, init_delay: 0, scaler: 0.1, pin2: A6, divider: 0.15146}, // Heated bed resistance sensor (ACS712 sensor for the current, voltage divider for the voltage)
+  {name: "SSR", pin: 0, type: 4, init_delay: 0}, // SSR thermistor (Celcius data) - received from the ESP board via serial connection
 };
 const int SENS_DT = 10; //  Read sensors every SENS_DT ms
 const int SENS_N = 100; // Compute the current sensor value by averaging over this many measurements

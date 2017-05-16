@@ -184,7 +184,7 @@ const byte FILLED_SQUARE[8] = {
 };
 
 // Size of the char array g.buffer:
-const int BUF_SIZE = 110;
+const int BUF_SIZE = 130;
 
 // Magic prefixes to identify serial communications
 #define MAGIC_EtoA "E->A" // ESP8266 - > Arduino communications
@@ -246,6 +246,9 @@ struct global
   long int serial_out_t0; // Last time serial communication was sent
   byte i_command[MAX_COMMAND]; // starting indexes of the icoming serial commands
   int N_serial; // Counter of serial sends (to figure out when to send long -less frequent - updates)
+  byte SSR_temp; // Initially 0; becomes 1 once the first SSR temperature value was received via serial from ESP
+  char i_SSR; // Index of the SSR temperature "sensor"
+  int T_SSR; // SSR temperature in C received from ESP via serial connection
 
   int motor; // Exhaust motor's next step (1...N_STEPS; motor disabled if 0)
   long int t0_motor; // Moment when the motor got the command to start moving, in us

@@ -76,6 +76,8 @@ void  serial_receive()
             if (i < i_ser - 3)
               // We got a full size packet:
             {
+              first_send = 0;
+              
               mqtt_send(4, MQTT"/out/sensor1/min", &i);
               mqtt_send(4, MQTT"/out/sensor1/max", &i);
               mqtt_send(4, MQTT"/out/sensor1/cur", &i);
@@ -95,18 +97,22 @@ void  serial_receive()
               mqtt_send(4, MQTT"/out/sensor4/max", &i);
               mqtt_send(4, MQTT"/out/sensor4/cur", &i);
               mqtt_send(4, MQTT"/out/sensor4/alarm", &i);
-              
+
               mqtt_send(4, MQTT"/out/sensor5/min", &i);
               mqtt_send(4, MQTT"/out/sensor5/max", &i);
               mqtt_send(4, MQTT"/out/sensor5/cur", &i);
               mqtt_send(4, MQTT"/out/sensor5/alarm", &i);
-              
+
               mqtt_send(4, MQTT"/out/sensor6/min", &i);
               mqtt_send(4, MQTT"/out/sensor6/max", &i);
               mqtt_send(4, MQTT"/out/sensor6/cur", &i);
               mqtt_send(4, MQTT"/out/sensor6/alarm", &i);
+
+              mqtt_send(4, MQTT"/out/sensor7/min", &i);
+              mqtt_send(4, MQTT"/out/sensor7/max", &i);
+              mqtt_send(4, MQTT"/out/sensor7/cur", &i);
+              mqtt_send(4, MQTT"/out/sensor7/alarm", &i);
             }
-            first_send = 0;
             // The length of the packet is i_ser-3:
             strncpy (packet_old, packet, i_ser - 3);
           }

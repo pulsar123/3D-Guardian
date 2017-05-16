@@ -94,7 +94,7 @@ void update_limits_all ()
     // recomputing the running average trained value:
     sensor[i].train_avr = (int)((float)sensor[i].train.sum / (float)sensor[i].train.N + 0.5);
 
-    if (sensor[i].type == 1 || sensor[i].type == 2)
+    if (sensor[i].type == 1 || sensor[i].type == 2 || sensor[i].type == 4)
       // Thermistors (data is in Celsius degrees)
     {
       sensor[i].warn_min = sensor[i].train.min - WARN_DTEMP;
