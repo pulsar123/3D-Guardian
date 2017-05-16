@@ -19,7 +19,8 @@ void motor ()
     // Initiating the motor as the fan's duty just became larger than zero, at least DT_RELEASE milliseconds after having been released the previous time
   {
     g.motor = 1;
-    g.t0_motor = g.t_us;
+    // Motor will start turning after the specified delay, to ensure there is some negative pressure before opening the inlet and outlet:
+    g.t0_motor = g.t_us + MOTOR_DELAY_MS;
     digitalWrite(SLEEP_PIN, HIGH); // Enabling the torque
     delay(1); // Required after waking up
     // The timing for the first microstep (us):
@@ -40,7 +41,9 @@ void motor ()
     }
   }
 
-  if (g.motor > N_STEPS && g.duty == 0)
+  // !!! Releasing even when not finished moving - to minimize escape through inlet; ideally fan still should be running a bit after this - to be implemented
+  //  if (g.motor > N_STEPS && g.duty == 0)
+  if (g.duty == 0)
     // g.duty just became zero, after a full movement, so time to release the torque
   {
     g.motor = 0;

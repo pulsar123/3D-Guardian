@@ -107,7 +107,7 @@ const long int CHIRP_PERIOD = 10000; // Time interval (ms) between chirps, in WA
 // Exhaust fan stuff (controlled via PWM at 31 kHz)
 //  If defined, it is assumed that the fan doesn't have PWM  control, and can only be truned on (g.duty=255) and off (g.duty=0).
 //  In this case FAN_PIN turns on/off the fan via a MOSFET
-//#define NO_PWM
+#define NO_PWM
 const int DT_CASE_MIN = 10; // Shortest allowed time for fan to run (seconds) during case clearing
 const int DT_CASE_MAX = 990; // Longest allowed time for fan to run (seconds) during case clearing
 const float FAN_SCALE = 10.0; // Sensitivity of the fan; change in fan's duty cycle for each 1C temperature difference, at each cycle
@@ -124,6 +124,7 @@ const int N_FULL_STEPS = 50; //44
 const int N_MICROSTEPS = 16;
 const float T_MOTOR = 0.5; // How many seconds a full (closed->opened) move takes
 const long int DT_RELEASE = 3000; // Number of milliseconds it takes the exhaust lid to settle down after having being released
+const long int MOTOR_DELAY_MS = 3000; // Both inlet and outlet motors will start moving that many ms after the exhaust fan starts running (to create negative pressure)
 
 // Serial (ESP8266) stuff
 const long int SERIAL_IN_DT = 100; // How frequently incoming serial communication is to be checked (ms)
