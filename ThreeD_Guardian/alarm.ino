@@ -22,8 +22,8 @@ void alarm()
     if (!sensor[i].on)
       continue;
 
-    // Skipping the resistance sensor if it hasn't been initialized yet:
-    if (sensor[i].type == 3 && sensor[i].train.zero == -1)
+    // Skipping the resistance sensor if it hasn't been initialized yet, or if the bed wasn't heated since rebooting:
+    if (sensor[i].type == 3 && (sensor[i].train.zero == -1 || g.resistance == 0))
       continue;
 
     // Alarm criterion:

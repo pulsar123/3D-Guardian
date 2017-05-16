@@ -110,7 +110,7 @@ void serial()
     serial_add_int2((int)g.alarm, &i);
     serial_add_int3((int)g.duty_perc, &i);
 
-    if (g.N_serial >= N_SERIAL_MAX)
+    if (g.N_serial == N_SERIAL_MAX)
       // Every N_SERIAL_MAX we continue with a longer message (report from all sensors)
     {
       g.N_serial = 0;

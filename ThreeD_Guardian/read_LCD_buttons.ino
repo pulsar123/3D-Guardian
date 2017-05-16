@@ -5,8 +5,9 @@
 // read the buttons
 void read_LCD_buttons()
 {
-  if (g.alarm == ALARM)
-    return;
+  //!!!
+//  if (g.alarm == ALARM)
+//    return;
 
 
   // Reading buttons only once every KEYS_DT us:

@@ -1,8 +1,9 @@
 void training (byte mode)
 // Enable (mode=1) / disable (mode=0) training mode
 {
-  if (g.alarm == ALARM)
-    return;
+  //!!!
+//  if (g.alarm == ALARM)
+//    return;
 
   if (mode == 1)
     // Switching from guarding to training mode:

@@ -37,15 +37,18 @@ void temperature()
         // Sending current temperature every 30 seconds:
         if (i_mqtt_T == 30)
         {
+          // We don't care about negative temperature values (usually if thermistor is disconnected):
+          if (T_int < 0)
+            T_int = 0;
           i_mqtt_T = 0;
-          sprintf(str, "%d.%01d", T_int, T_dec);
+          sprintf(str, "%d", T_int);
           client.publish(MQTT"/SSR_temp", str);
         }
       }
 
 #ifdef DEBUG
       // Transmit the A0_LOW and A0_HIGH parameters (raw A0 pin values when it is pulled down and up, respectively)
-      client.publish("TEST/1", itoa(analogRead(TH_PIN)));
+//      client.publish("TEST/1", itoa(analogRead(TH_PIN)));
 #endif
     }
   }

@@ -466,9 +466,9 @@ void menu_dt_case (byte mode, byte line)
 }
 
 
-void menu_zero_current (byte mode, byte line)
-// Use the current average value of the current (type=3) sensor to update sensor[g.current_sensor].train.zero
-// Run this during initial training, when there is no current to the load (heated bed)
+void menu_zero_voltage (byte mode, byte line)
+// Use the current average value of the type=3 (resistance) sensor to update sensor[g.resistance_sensor].train.zero
+// Run this during initial training, when there is no voltage to the load (heated bed)
 {
   if (g.alarm != TRAINING)
     return;
@@ -480,18 +480,30 @@ void menu_zero_current (byte mode, byte line)
   switch (mode)
   {
     case 0:
-      // Displaying the current average current value (raw):
-      g.new_value = sensor[g.current_sensor].avr;
+      // Displaying the current average voltage value (raw):
+      g.new_value = sensor[g.resistance_sensor].avr;
       break;
 
     case 1:
-      // Assigning a positive value to *.zero for the current (resistance) sensor  is the signal that the resistance sensor is enabled and can start normal training:
-      sensor[g.current_sensor].train.zero = g.new_value;
+      int i = g.resistance_sensor;
+      if (sensor[i].train.zero < 0)
+      {
+        // Assigning a positive value to *.zero for the voltage (resistance) sensor is the signal that the resistance sensor is enabled and can start normal training:
+        // We have to re-initialize the sensor now as it has bad (voltage, not resistance) data
+        init_sensor(&sensor[i].train);
+        init_sensor(&sensor[i].guard);
+        sensor[i].train.zero = g.new_value;
+        sensor[i].avr = 0;
+        sensor[i].old = 0;
+        sensor[i].sum = 0;
+        sensor[i].i = 0;
+        sensor[i].alarm_max = 0;
+      }
       g.exit_menu = 1;
       break;
   }
 
-  sprintf(g.buffer, "%4d(%4d)", g.new_value, sensor[g.current_sensor].train.zero);
+  sprintf(g.buffer, "%4d(%4d)", g.new_value, sensor[g.resistance_sensor].train.zero);
   lcd.print(g.buffer);
   return;
 }

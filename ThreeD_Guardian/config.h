@@ -98,7 +98,7 @@ void menu_fan_control (byte mode, byte line);
 void menu_factory_reset (byte mode, byte line);
 void menu_T_target (byte mode, byte line);
 void menu_dt_case (byte mode, byte line);
-void menu_zero_current (byte mode, byte line);
+void menu_zero_voltage (byte mode, byte line);
 
 // Total number of menu items (listed in the "struct MenuItem_struc MenuItem[N_MENU]" initialization below)
 const byte N_MENU = 12;
@@ -130,7 +130,7 @@ struct MenuItem_struc MenuItem[N_MENU] = {
 
   {.name = "On/off",         .id =  4, .prev_id = NONE, .next_id =    5, .up_id =    1, .down_id = NONE, .func = menu_train_onoff},
   {.name = "Update",         .id =  5, .prev_id =    4, .next_id =   12, .up_id =    1, .down_id = NONE, .func = menu_update_train},
-  {.name = "Init current",   .id = 12, .prev_id =    5, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_zero_current},
+  {.name = "Init voltage",   .id = 12, .prev_id =    5, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_zero_voltage},
 
   {.name = "T_target",       .id = 10, .prev_id = NONE, .next_id =   11, .up_id =    3, .down_id = NONE, .func = menu_T_target},
   {.name = "Fan time",       .id = 11, .prev_id =   10, .next_id =    6, .up_id =    3, .down_id = NONE, .func = menu_dt_case},
@@ -184,7 +184,7 @@ const byte FILLED_SQUARE[8] = {
 };
 
 // Size of the char array g.buffer:
-const int BUF_SIZE = 100;
+const int BUF_SIZE = 110;
 
 // Magic prefixes to identify serial communications
 #define MAGIC_EtoA "E->A" // ESP8266 - > Arduino communications
@@ -254,7 +254,8 @@ struct global
   long int t_us; // Microseconds timer
   long int t_release; // The time (ms) when the exhaust motor was released
 
-  int current_sensor; // The ID of the current sensor (type=3)
+  int resistance_sensor; // The ID of the resistance sensor (type=3)
+  byte resistance; // 0: if resistance hasn't been measured yet since reboot/reset (because bed wasn't heated yet); 1: was measured at least once
 
   byte printer; // 0/1 if the printer is off/on
   byte bad_sensor; // The id of the sensor - biggest offender when a warning is issued

@@ -46,7 +46,7 @@ const byte BUTTONS_PIN = A0; // The analog input pin for the buttons on the disp
    to +Vin), which will divide by ~5x, so 15V becomes ~3V (=626 in raw units).
 */
 
-const byte N_SENSORS = 7; // Number of sensors
+const byte N_SENSORS = 6; // Number of sensors
 // Basic sensor data (they will be used in this order):
 struct sensor_struc sensor[N_SENSORS] = {
   {name: "Smo", pin: A2, type: 0, init_delay: 600000}, // Smoke sensor (MQ-2; raw data)
@@ -56,12 +56,13 @@ struct sensor_struc sensor[N_SENSORS] = {
   {name: "Th1", pin: A1, type: 2, init_delay: 0}, // Enclosure thermistor (Celcius data)
   {name: "Th2", pin: A4, type: 1, init_delay: 0}, // Motherboard thermistor (Celcius data)
   {name: "PSU", pin: A5, type: 1, init_delay: 0}, // PSU thermistor (Celcius data)
-  {name: "Bed", pin: A7, type: 3, init_delay: 0, scaler: 0.1, pin2: A6, divider: 0.3} // Heated bed resistance sensor (ACS712 sensor for the current, voltage divider for the voltage)
+  {name: "Bed", pin: A7, type: 3, init_delay: 0, scaler: 0.1, pin2: A6, divider: 0.15146} // Heated bed resistance sensor (ACS712 sensor for the current, voltage divider for the voltage)
 };
 const int SENS_DT = 10; //  Read sensors every SENS_DT ms
 const int SENS_N = 100; // Compute the current sensor value by averaging over this many measurements
 const float V_CRIT = 8; // Critical voltage (Volts) used in resistance sensors. Should be ~50% of the normal heated bed / hot end voltage
 const float R_BED = 1.5; // Resistance of the bed when hot (Ohms)
+const int ZERO_CURRENT_RAW = 512; // Raw current measurement with zero current (should be 512 if wiring is correct)
 
 // Alarm and warning constants (only used in GUARDING mode)
 // For type=0 and type=3 sensors:
@@ -115,7 +116,7 @@ const float FAN_HYST = 0.5; // Fan's hysteresis, in Celcius (temperature is now 
 // Stepper motor (exhaust outlet open/close) stuff
 // Number of full steps to take when going from the passive default (closed) to the active open state. For the stepper motors
 // with 200 steps per rotation, given the desired rotation angle A in degrees, N_FULL_STEPS = (A/360) * 200
-const int N_FULL_STEPS = 44;
+const int N_FULL_STEPS = 50; //44
 // Number of microsteps per step (hardwired  - see https://www.pololu.com/product/1182 ; for 16 microsteps on A4988, put 10k pullup resistors
 // on MS1, 2, and 3). Higher numbers are better for the mechanics (less vibrations), but for small T_MOTOR you can start loosing steps
 const int N_MICROSTEPS = 16;

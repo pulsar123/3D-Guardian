@@ -15,7 +15,8 @@ void read_sensors ()
     if (sensor[i].on && g.t - sensor[i].t0 > SENS_DT)
     {
       sensor[i].t0 = g.t;
-      if (sensor[i].type == 3 && sensor[i].train.zero > 0)
+
+      if (sensor[i].type == 3)
         // First voltage measurement, for resistance sensor
         V1_raw = analogRead(sensor[i].pin2);
 
@@ -25,24 +26,49 @@ void read_sensors ()
       if (sensor[i].type == 1 || sensor[i].type == 2)
         // Inverting the raw thermistor data to have it behave like other sensors (higher value means higher temperature -  more dangerous)
         x = 1023 - x;
-      else if (sensor[i].type == 3 && sensor[i].train.zero > 0)
+      else if (sensor[i].type == 3)
         // Second voltage measurement, for resistance sensor
         V2_raw = analogRead(sensor[i].pin2);
 
-      if (sensor[i].type == 3 && sensor[i].train.zero > 0)
+      if (sensor[i].type == 3)
         // Computing inverse resistance based on two raw voltage (V1_raw, V2_raw) and one current (x) measurements
         // For details see http://pulsar124.wikia.com/wiki/3D_Guardian#Resistance_sensor
       {
-        if (V1_raw < sensor[i].V_crit_raw || V2_raw < sensor[i].V_crit_raw)
-          // Either first or second voltage measurement is bad (<V_crit), so skipping this resistance measurement
-          continue;
-        if (V1_raw > V2_raw)
-          Vmax_raw = V1_raw;
+        // If the resistance sensor hasn't been trained yet, we store the raw voltage as teh sensor value - to be used for zero voltage calibration from Menu:
+        if (sensor[i].train.zero < 0)
+        {
+          x = (int)((V1_raw + V2_raw) / 2.0 + 0.5);
+        }
         else
-          Vmax_raw = V2_raw;
-        I_raw = x - sensor[i].train.zero;
-        // Inverse resistance (1/Ohms) normalized by the expected bed resistance (R_BED), converted to raw units (by *512)
-        x = (int)(512 * R_BED * sensor[i].divider / sensor[i].scaler * (float)I_raw / (float)Vmax_raw + 0.5);
+        {
+          // Fixing the voltage offset:
+          V1_raw = V1_raw - sensor[i].train.zero;
+          V2_raw = V2_raw - sensor[i].train.zero;
+          if (V1_raw < sensor[i].V_crit_raw || V2_raw < sensor[i].V_crit_raw)
+            // Either first or second voltage measurement is bad (<V_crit), so skipping this resistance measurement
+            continue;
+          if (V1_raw > V2_raw)
+            Vmax_raw = V1_raw;
+          else
+            Vmax_raw = V2_raw;
+          I_raw = x - ZERO_CURRENT_RAW;
+          // Inverse resistance (1/Ohms) normalized by the expected bed resistance (R_BED), converted to raw units (by *512)
+          x = (int)(512 * R_BED * sensor[i].divider / sensor[i].scaler * (float)I_raw / (float)Vmax_raw + 0.5);
+          // Resistance was measured, so warnings/alarms are now allowed for resistance sensor:
+          g.resistance = 1;
+        }
+#ifdef DEBUG
+        Serial.print("R ");
+        Serial.print(V1_raw);
+        Serial.print(" ");
+        Serial.print(I_raw);
+        Serial.print(" ");
+        Serial.print(V2_raw);
+        Serial.print(" ");
+        Serial.print(Vmax_raw);
+        Serial.print(" ");
+        Serial.println(x);
+#endif
       }
 
       sensor[i].sum = sensor[i].sum + x;
@@ -91,15 +117,17 @@ void read_sensors ()
         sensor[i].sum = 0;
 
 #ifdef DEBUG
-        if (i == 0)
-        {
-          Serial.print(g.t);
-          Serial.print(" ");
-        }
-        Serial.print(sensor[i].avr);
-        Serial.print(" ");
-        if (i == N_SENSORS - 1)
-          Serial.println("");
+        /*
+                if (i == 0)
+                {
+                  Serial.print(g.t);
+                  Serial.print(" ");
+                }
+                Serial.print(sensor[i].avr);
+                Serial.print(" ");
+                if (i == N_SENSORS - 1)
+                  Serial.println("");
+        */
 #endif
 
       }

@@ -20,6 +20,13 @@ void callback(char* topic, byte* payload, unsigned int length)
       Serial.print(MAGIC_EtoA"S");
     }
   }
+
+  // Refresh everything command:
+  if (strcmp(topic, "openhab/start") == 0)
+  {
+    if ((char)payload[0] == '1')
+      first_send = 1;
+  }
   return;
 }
 

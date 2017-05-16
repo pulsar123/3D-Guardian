@@ -47,7 +47,7 @@ void initialize(byte factory_reset)
     // For now only accepting one current sensor (the last current sensor in sensor[] vector):
     if (sensor[i].type == 3)
     {
-      g.current_sensor = i;
+      g.resistance_sensor = i;
       // Critical voltage (in raw units) to detect whether to make a resistance measurement at this point in time (make measurement if V1,2_raw > V_crit_raw)
       sensor[i].V_crit_raw = (int)(1024.0 * V_CRIT * sensor[i].divider / 5.0 + 0.5);
     }
@@ -64,6 +64,7 @@ void initialize(byte factory_reset)
     training(1);
 
   g.fan_mode_old = g.fan_mode;
+  g.resistance = 0;
 
 #ifdef DEBUG
   Serial.println("");

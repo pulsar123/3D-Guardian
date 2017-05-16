@@ -6,6 +6,8 @@
 //const char* password = "xxxx";
 //const char* mqtt_server = "xxxxxx";
 
+//#define DEBUG
+
 #include "private.h"
 
 // The device name for MQTT communications:
@@ -41,7 +43,7 @@ const int A0_LOW = 1;
 const long SERIAL_DT = 100;  // How frequently incoming serial communication is to be checked (ms)
 const long SERIAL_TIMEOUT = 2000; // Maximum allowed number of ms with no received serial communications; LED starts blinking if it is exceeded
 const long LED1_DT = 250; // Blinking interval in ms for LED1 when there is no serial connection
-const byte MAX_COMMAND = 10; // Maximum number of commands which can be received in a single serial communication:
+const byte MAX_COMMAND = 20; // Maximum number of commands which can be received in a single serial communication:
 byte i_command[MAX_COMMAND]; // starting indexes of the incoming serial commands
 byte bytes[MAX_COMMAND]; // number of bytes in each command
 
@@ -54,7 +56,7 @@ long int DT_DEBOUNCE = 200; // Debouncing time for the panic button, in ms
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-const int BUF_SIZE = 100;
+const int BUF_SIZE = 110;
 char packet_old[BUF_SIZE], packet[BUF_SIZE];
 char debug[BUF_SIZE];
 char str[10];

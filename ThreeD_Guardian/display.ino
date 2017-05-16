@@ -87,12 +87,12 @@ void display()
       int xmin;
       byte i = g.screen - 1;
 
-      if (sensor[i].type == 3 && sensor[i].train.zero > 0)
-        // We haven't initialized the resistance (current) sensor yet
+      if (sensor[i].type == 3 && sensor[i].train.zero < 0)
+        // We haven't initialized the resistance (voltage) sensor yet
       {
         sprintf(g.buffer, " Perform      ");
         lcd.print(g.buffer);
-        sprintf(g.buffer, "\"Init current\"");
+        sprintf(g.buffer, "\"Init voltage\"");
         lcd.setCursor(0, 1);
         lcd.print(g.buffer);
       }

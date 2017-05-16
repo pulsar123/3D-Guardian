@@ -134,6 +134,7 @@ void setup()
   g.serial_in_t0 = g.t;
   g.serial_out_t0 = g.t;
   g.N_serial = N_SERIAL_MAX - 1;
+//  g.N_serial = 0;
   g.bad_sensor = 0;
   // The serial connection to ESP8266 controller, for the WiFi interface:
   // (In DEBUG mode it is used to print sensor data to PC instead)
