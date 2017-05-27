@@ -85,6 +85,13 @@ void read_sensors ()
         if (sensor[i].type == 4 && g.SSR_temp == 1)
         {
           sensor[i].avr = g.T_SSR;
+          if (g.T_SSR > CRAZY_TEMP)
+          {
+            g.alarm = ALARM;
+            g.bad_sensor = i;
+            alarm_actions();
+            return;
+          }
         }
         else
         {
@@ -105,6 +112,13 @@ void read_sensors ()
               // Case temperature:
               g.T = T;
             M = T;
+            if (T > CRAZY_TEMP)
+            {
+              g.alarm = ALARM;
+              g.bad_sensor = i;
+              alarm_actions();
+              return;
+            }
           }
 
           // Adding 0.5 for proper roundoff:

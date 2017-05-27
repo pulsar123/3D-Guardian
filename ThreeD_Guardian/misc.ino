@@ -324,3 +324,20 @@ void train_load()
   return;
 }
 
+
+void alarm_actions()
+// Everything which needs to be done when an alarm is triggered
+{
+  // Shutting down the printer:
+  digitalWrite(SSR_PIN, 0);
+  // Just in case:
+  g.sp_t0 = g.t;
+  g.sp_state = 0;
+  // Shutting down the fan:
+  g.case_clearing = 0;
+  g.duty = 0;
+  update_duty();
+  g.refresh_display = 1;
+
+}
+

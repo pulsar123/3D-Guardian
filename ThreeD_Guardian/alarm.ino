@@ -30,17 +30,8 @@ void alarm()
     if (sensor[i].avr > sensor[i].alarm_max)
     {
       g.alarm = ALARM;
-      // Shutting down the printer:
-      digitalWrite(SSR_PIN, 0);
-      // Just in case:
-      g.sp_t0 = g.t;
-      g.sp_state = 0;
-      // Shutting down the fan:
-      g.case_clearing = 0;
-      g.duty = 0;
-      update_duty();
-      g.refresh_display = 1;
       g.bad_sensor = i;
+      alarm_actions();
       return;
     }
 

@@ -78,6 +78,7 @@ const int WARN_CONST = 5; // Similar to ALARM_CONST; to be triggered, a warning 
 // For thermistor sensors (type=1/2):
 const int ALARM_DTEMP = 20; // If thermistor temperature goes above training max temperature plus this factor (C), trigger alarm
 const int WARN_DTEMP = 10; // If thermistor temperature goes below trained min minus this factor (C) or above trained max temperature plus this factor (C), trigger warning
+const int CRAZY_TEMP = 75; // If any temperature exceeds this value (in C), the alarm will be triggered (even in the training mode)
 
 const long int STORE_DT = 60000; // How often to store sensor data to EEPROM, ms
 
