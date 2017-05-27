@@ -2,8 +2,8 @@ void training (byte mode)
 // Enable (mode=1) / disable (mode=0) training mode
 {
   //!!!
-//  if (g.alarm == ALARM)
-//    return;
+  //  if (g.alarm == ALARM)
+  //    return;
 
   if (mode == 1)
     // Switching from guarding to training mode:
@@ -248,6 +248,79 @@ void clear_the_case ()
   g.case_t0 = g.t;
   g.fan_mode_old = g.fan_mode;
   g.fan_mode = 2;
+  return;
+}
+
+
+void train_dump()
+// Dumping train data to serial interface
+{
+  for (byte i = 0; i < N_SENSORS; i++)
+  {
+    Serial.print(sensor[i].train.min);
+    Serial.print(" ");
+    Serial.print(sensor[i].train.max);
+    Serial.print(" ");
+    Serial.print(sensor[i].train.zero);
+    Serial.print(" ");
+    Serial.print(sensor[i].train.sum);
+    Serial.print(" ");
+    Serial.println(sensor[i].train.N);
+  }
+
+  // Special "end of dump" HEX sequence:
+  Serial.print("..");
+  return;
+}
+
+
+void train_load()
+{
+  int i = 0;
+  long int x;
+  while (Serial.available() > 0)
+  {
+    for (byte i = 0; i < N_SENSORS; i++)
+    {
+      if (x = Serial.parseInt() != 0)
+        sensor[i].train.min = (int)x;
+      if (x = Serial.parseInt() != 0)
+        sensor[i].train.max = (int)x;
+      if (x = Serial.parseInt() != 0)
+        sensor[i].train.zero = (int)x;
+      if (x = Serial.parseInt() != 0)
+        sensor[i].train.sum = (int)x;
+      if (x = Serial.parseInt() != 0)
+        sensor[i].train.N = (int)x;
+    }
+  }
+
+  EEPROM_put();
+
+  /*
+    while (Serial.available() > 0 && i < BUF_SIZE - 1)
+    {
+    // Reading one character from the serial terminal:
+    s_char = Serial.read();
+    g.buffer[i] = s_char;
+    // Looking for the end of dump signal (..):
+    if (i > 0 && strncmp(&g.buffer[i - 1], "..", 2) == 0)
+    {
+      N = i - 1;
+      break;
+    }
+    i++;
+    }
+
+    for (byte i = 0; i < N_SENSORS; i++)
+    {
+    Serial.print(sensor[i].train);
+    Serial.println();
+    }
+
+    // Special "end of dump" HEX sequence:
+    Serial.print("..");
+  */
   return;
 }
 

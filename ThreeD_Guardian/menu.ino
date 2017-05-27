@@ -508,3 +508,64 @@ void menu_zero_voltage (byte mode, byte line)
   return;
 }
 
+
+void menu_train_dump (byte mode, byte line)
+// Dump the training data to serial interface (only works when the seril connection with ESP is interrupted)
+{
+  if (g.t - g.t_SSR <= DT_SSR_MAX)
+    return;
+
+  if (mode == 1)
+  {
+    train_dump();
+    g.screen = 0;
+    // Instantly going back to the default screen:
+    g.exit_menu = 1;
+  }
+}
+
+
+void menu_train_load (byte mode, byte line)
+// Load training data from serial interface  (only works when the seril connection with ESP is interrupted)
+{
+  if (g.t - g.t_SSR <= DT_SSR_MAX)
+    return;
+
+  const byte POS = 13;
+
+  lcd.setCursor(POS, line);
+  if (mode == 3)
+    mode = 2;
+
+  switch (mode)
+  {
+    case 0:
+      g.new_value = 0;
+      break;
+
+    case 1:
+      g.edit = 1;
+      g.serial_alt = 1;
+      break;
+
+    case 2:
+      g.new_value = 1 - g.new_value;
+      break;
+
+    case 4:
+      g.edit = 0;
+      g.serial_alt = 0;
+      train_load();
+      g.screen = 0;
+      g.exit_menu = 1;
+      return;
+  }
+
+  if (g.new_value == 0)
+    lcd.print(" No");
+  else
+    lcd.print("Yes");
+
+  return;
+}
+

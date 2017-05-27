@@ -99,9 +99,11 @@ void menu_factory_reset (byte mode, byte line);
 void menu_T_target (byte mode, byte line);
 void menu_dt_case (byte mode, byte line);
 void menu_zero_voltage (byte mode, byte line);
+void menu_train_dump (byte mode, byte line);
+void menu_train_load (byte mode, byte line);
 
 // Total number of menu items (listed in the "struct MenuItem_struc MenuItem[N_MENU]" initialization below)
-const byte N_MENU = 12;
+const byte N_MENU = 14;
 // Maximum menu depth:
 const byte MENU_DEPTH = 2;
 
@@ -130,7 +132,9 @@ struct MenuItem_struc MenuItem[N_MENU] = {
 
   {.name = "On/off",         .id =  4, .prev_id = NONE, .next_id =    5, .up_id =    1, .down_id = NONE, .func = menu_train_onoff},
   {.name = "Update",         .id =  5, .prev_id =    4, .next_id =   12, .up_id =    1, .down_id = NONE, .func = menu_update_train},
-  {.name = "Init voltage",   .id = 12, .prev_id =    5, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_zero_voltage},
+  {.name = "Init voltage",   .id = 12, .prev_id =    5, .next_id =   16, .up_id =    1, .down_id = NONE, .func = menu_zero_voltage},
+  {.name = "Train dump",     .id = 16, .prev_id =   12, .next_id =   17, .up_id =    1, .down_id = NONE, .func = menu_train_dump},
+  {.name = "Train load",     .id = 17, .prev_id =   16, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_train_load},
 
   {.name = "T_target",       .id = 10, .prev_id = NONE, .next_id =   11, .up_id =    3, .down_id = NONE, .func = menu_T_target},
   {.name = "Fan time",       .id = 11, .prev_id =   10, .next_id =    6, .up_id =    3, .down_id = NONE, .func = menu_dt_case},
@@ -249,6 +253,7 @@ struct global
   byte SSR_temp; // Initially 0; becomes 1 once the first SSR temperature value was received via serial from ESP
   char i_SSR; // Index of the SSR temperature "sensor"
   int T_SSR; // SSR temperature in C received from ESP via serial connection
+  long int t_SSR; // Last time SSR temperature was received via serial interface
 
   int motor; // Exhaust motor's next step (1...N_STEPS; motor disabled if 0)
   long int t0_motor; // Moment when the motor got the command to start moving, in us

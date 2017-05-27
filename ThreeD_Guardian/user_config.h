@@ -130,4 +130,4 @@ const long int MOTOR_DELAY_MS = 3000; // Both inlet and outlet motors will start
 const long int SERIAL_IN_DT = 100; // How frequently incoming serial communication is to be checked (ms)
 const long int SERIAL_OUT_DT = 500; // How frequently outgoing short serial communication is to be sent (ms)
 const int N_SERIAL_MAX = 10; // Every this many short serial out communications send one long (full sensor update) one
-
+const long int DT_SSR_MAX = 1500; // If the SSR temperature hasn't been received from ESP for that many ms, the serial connection is presumed to have been broken

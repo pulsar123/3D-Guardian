@@ -40,6 +40,10 @@ void serial()
 // Module to communicate with the WiFi module ESP8266 via serial connection.
 {
 
+// If no data coming from ESP - serial connection is considered to be broken (now we can use it for reading/writing EEPROM data)
+//  if (g.t - g.t_SSR > DT_SSR_MAX)
+//    return;
+
 #ifndef DEBUG
   // In DEBUG mode, we use serial to print sensor data regularly, instead of communicating with ESP board
 
@@ -93,10 +97,11 @@ void serial()
         else if (strncmp(&g.buffer[g.i_command[i]], "T", 1) == 0)
           // Getting the SSR temperature (C) value from ESP:
         {
-          strncpy(g.buf4, &g.buffer[g.i_command[i]+1], 3);
+          strncpy(g.buf4, &g.buffer[g.i_command[i] + 1], 3);
           g.buf4[3] = '\0';
           g.T_SSR = atoi(g.buf4);
           g.SSR_temp = 1;
+          g.t_SSR = g.t;
         }
 
       }
