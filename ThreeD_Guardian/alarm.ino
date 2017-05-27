@@ -36,6 +36,7 @@ void alarm()
       g.sp_t0 = g.t;
       g.sp_state = 0;
       // Shutting down the fan:
+      g.case_clearing = 0;
       g.duty = 0;
       update_duty();
       g.refresh_display = 1;

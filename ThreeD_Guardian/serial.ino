@@ -40,9 +40,9 @@ void serial()
 // Module to communicate with the WiFi module ESP8266 via serial connection.
 {
 
-// If no data coming from ESP - serial connection is considered to be broken (now we can use it for reading/writing EEPROM data)
-//  if (g.t - g.t_SSR > DT_SSR_MAX)
-//    return;
+  // If no data coming from ESP - serial connection is considered to be broken (now we can use it for reading/writing EEPROM data)
+  //  if (g.t - g.t_SSR > DT_SSR_MAX)
+  //    return;
 
 #ifndef DEBUG
   // In DEBUG mode, we use serial to print sensor data regularly, instead of communicating with ESP board
@@ -85,6 +85,7 @@ void serial()
         {
           g.printer = 0;
           g.refresh_display = 1;
+          g.case_clearing = 0;
           digitalWrite(SSR_PIN, 0);
         }
 

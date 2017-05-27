@@ -216,6 +216,7 @@ void menu_train_onoff (byte mode, byte line)
     else
       training (0);
 
+    g.screen = 0;
     g.exit_menu = 1;
   }
   return;
@@ -238,6 +239,7 @@ void menu_update_train (byte mode, byte line)
       sensor[i].train.sum = sensor[i].train.sum + sensor[i].guard.sum;
       EEPROM.put(g.addr_tr[i], sensor[i].train);
     }
+    g.screen = 0;
     g.exit_menu = 1;
     // recomputing all warning and alarm limits:
     update_limits_all ();
@@ -253,6 +255,7 @@ void menu_clear_case (byte mode, byte line)
   {
     clear_the_case();
     // Instantly going back to the default screen:
+    g.screen = 0;
     g.exit_menu = 1;
   }
   return;
@@ -499,6 +502,7 @@ void menu_zero_voltage (byte mode, byte line)
         sensor[i].i = 0;
         sensor[i].alarm_max = 0;
       }
+      g.screen = 0;
       g.exit_menu = 1;
       break;
   }
