@@ -25,6 +25,11 @@ void initialize(byte factory_reset)
     EEPROM_get();
   }
 
+  // Initially (first PROG_INIT ms) the controller is in PROG mode; it switches to the proper mode in cleanup()
+  g.alarm_ini = g.alarm;
+  g.alarm = PROG;
+  g.prog_on = 1;
+
   // Resetting guarding sensor data after each reboot:
   for (byte i = 0; i < N_SENSORS; i++)
     init_sensor(&sensor[i].guard);

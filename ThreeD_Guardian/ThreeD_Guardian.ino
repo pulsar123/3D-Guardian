@@ -137,6 +137,7 @@ void setup()
   g.bad_sensor = 0;
   g.SSR_temp = 0;
   g.T_SSR = 0;
+  g.t_SSR = g.t - DT_SSR_MAX - 1;
   // The serial connection to ESP8266 controller, for the WiFi interface:
   // (In DEBUG mode it is used to print sensor data to PC instead)
   Serial.begin(115200);

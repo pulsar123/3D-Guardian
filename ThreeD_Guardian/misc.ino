@@ -36,6 +36,24 @@ void cleanup()
     if (sensor[i].on == 0 && g.t - g.t0_init > sensor[i].init_delay)
       sensor[i].on = 1;
   }
+
+  if (g.t - g.t0_init > PROG_INIT)
+  {
+    // After initial delay, switch the controller to the mode read from EEPROm at boot time (only if serial communication with ESP is already established):
+    if (g.prog_on == 1 && g.t - g.t_SSR < DT_SSR_MAX)
+    {
+      g.alarm = g.alarm_ini;
+      g.prog_on = 0;
+    }
+    // If no serial communication for > DT_SSR_MAX ms, we are switching to the PROG mode:
+    if (g.prog_on == 0  && g.t - g.t_SSR > DT_SSR_MAX)
+    {
+      g.alarm_ini = g.alarm;
+      g.alarm = PROG;
+      g.prog_on = 1;
+    }
+  }
+
   return;
 }
 

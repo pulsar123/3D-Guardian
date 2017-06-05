@@ -148,6 +148,7 @@ struct MenuItem_struc MenuItem[N_MENU] = {
 //+++++++++++++++++++++++++++++++++++ end of menu stuff +++++++++++++++++++++++++++++++++++++++++++
 
 // Mode constants :
+const char PROG = -3; // Programming mode (first a few seconds after booting, and if the serial connection Arduino - ESP is interrupted for firmware upgrade)
 const char TRAINING = -2; // Training mode (no alarms; memorizing the highest sensor values; fan thermostat works)
 const char WARNING = -1; // Warning mode (can happen while guarding; indicates non-critical issues - a failed sensor etc.; you can still print; fan thermostat works)
 const char GUARDING = 0; // Guarding (normal) mode (monitoring sensors, can trigger alarm or warning; fan thermostat works)
@@ -201,7 +202,8 @@ struct global
 {
   int addr_tr[N_SENSORS]; // Training data (the actual addresses are computed at runtime in initialize())
   byte default_id = 2; // The id of the menu item on the first line of the top level screen, in the "struct MenuItem_struc MenuItem[N_MENU] =" initialization above
-  char alarm; // Current state: 0 (GUARDING) - normal state; 1 (ALARM) - alarm was triggered; -2 (TRAINING) - training mode; -1 (WARNING) - warning mode; saved in EEPROM (only if -2 or 0)
+  char alarm; // Current state: 0 (GUARDING) - normal state; 1 (ALARM) - alarm was triggered; -3 (PROG) - programming mode; -2 (TRAINING) - training mode; -1 (WARNING) - warning mode; saved in EEPROM (only if -2 or 0)
+  char alarm_ini; // Initial value of alarm read from EEPROM at boot time
 
   char screen; // Screen number; -1 for the main menu, 0 for the default screen, >0 for alternative screens (accessed via UP/DOWN from teh default screen)
   byte menu_id; // The id of the currently active (highlighted) menu item
@@ -254,6 +256,8 @@ struct global
   char i_SSR; // Index of the SSR temperature "sensor"
   int T_SSR; // SSR temperature in C received from ESP via serial connection
   long int t_SSR; // Last time SSR temperature was received via serial interface
+  byte serial_alt; // experimental
+  byte prog_on; // =1 when the PROG mode was initiated; 0 when just disabled
 
   int motor; // Exhaust motor's next step (1...N_STEPS; motor disabled if 0)
   long int t0_motor; // Moment when the motor got the command to start moving, in us
