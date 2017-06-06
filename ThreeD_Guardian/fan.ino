@@ -4,7 +4,7 @@
 
 void fan()
 {
-  if (g.alarm == ALARM)
+  if (g.alarm == ALARM && g.alarm == PROG)
     return;
 
   if (g.case_clearing == 1 && (g.t - g.case_t0) / 1000 > g.dt_case)

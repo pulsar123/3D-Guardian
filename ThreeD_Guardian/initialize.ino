@@ -29,6 +29,8 @@ void initialize(byte factory_reset)
   g.alarm_ini = g.alarm;
   g.alarm = PROG;
   g.prog_on = 1;
+  lcd.clear();
+  lcd.print("Initializing...");
 
   // Resetting guarding sensor data after each reboot:
   for (byte i = 0; i < N_SENSORS; i++)

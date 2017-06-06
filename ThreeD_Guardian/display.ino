@@ -5,6 +5,9 @@
 void display()
 {
 
+  if (g.alarm == PROG)
+    return;
+
   if (g.screen != 0 && g.t - g.key_t0 > SCREEN0_DT || g.exit_menu)
     // Timing out to default screen, after SCREEN0_DT ms without a key press
   {

@@ -12,6 +12,9 @@
 void motor ()
 {
 
+  if (g.alarm == PROG)
+    return;
+
   // We need microsecond accuracy timer for the stepper motor control
   g.t_us = micros();
 

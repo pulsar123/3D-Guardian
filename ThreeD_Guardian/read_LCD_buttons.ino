@@ -9,6 +9,9 @@ void read_LCD_buttons()
 //  if (g.alarm == ALARM)
 //    return;
 
+  if (g.alarm == PROG)
+    return;
+
 
   // Reading buttons only once every KEYS_DT us:
   if (g.t - g.keys_t0 > KEYS_DT)

@@ -77,25 +77,29 @@ void serial()
         i++;
       }
 
+      // In programming mode, ignoring all serial commands except for "T" command:
       // Processing the received commands:
       for (i = 0; i < N_command; i++)
       {
-        if (g.printer == 1 && strncmp(&g.buffer[g.i_command[i]], "S", 1) == 0)
-          // Shutting down the printer (not an alarm):
+        if (g.alarm != PROG)
         {
-          g.printer = 0;
-          g.refresh_display = 1;
-          g.case_clearing = 0;
-          digitalWrite(SSR_PIN, 0);
+          if (g.printer == 1 && strncmp(&g.buffer[g.i_command[i]], "S", 1) == 0)
+            // Shutting down the printer (not an alarm):
+          {
+            g.printer = 0;
+            g.refresh_display = 1;
+            g.case_clearing = 0;
+            digitalWrite(SSR_PIN, 0);
+          }
+
+          else if (g.case_clearing == 0 && strncmp(&g.buffer[g.i_command[i]], "C", 1) == 0)
+            // Clearing the case
+          {
+            clear_the_case();
+          }
         }
 
-        else if (g.case_clearing == 0 && strncmp(&g.buffer[g.i_command[i]], "C", 1) == 0)
-          // Clearing the case
-        {
-          clear_the_case();
-        }
-
-        else if (strncmp(&g.buffer[g.i_command[i]], "T", 1) == 0)
+        if (strncmp(&g.buffer[g.i_command[i]], "T", 1) == 0)
           // Getting the SSR temperature (C) value from ESP:
         {
           strncpy(g.buf4, &g.buffer[g.i_command[i] + 1], 3);
@@ -111,7 +115,7 @@ void serial()
 
 
   // Serial transmission:
-  if (g.t - g.serial_out_t0 > SERIAL_OUT_DT)
+  if (g.alarm != PROG && g.t - g.serial_out_t0 > SERIAL_OUT_DT)
   {
     g.serial_out_t0 = g.t;
     g.N_serial++;

@@ -44,6 +44,13 @@ void cleanup()
     {
       g.alarm = g.alarm_ini;
       g.prog_on = 0;
+      if (g.alarm == TRAINING)
+        training (1);
+      else
+        training (0);
+      g.screen = 0;
+      g.exit_menu = 1;
+      g.refresh_display = 1;
     }
     // If no serial communication for > DT_SSR_MAX ms, we are switching to the PROG mode:
     if (g.prog_on == 0  && g.t - g.t_SSR > DT_SSR_MAX)
@@ -51,6 +58,12 @@ void cleanup()
       g.alarm_ini = g.alarm;
       g.alarm = PROG;
       g.prog_on = 1;
+      // Shutting down the fan:
+      g.case_clearing = 0;
+      g.duty = 0;
+      update_duty();
+      lcd.clear();
+      lcd.print("Programming");
     }
   }
 

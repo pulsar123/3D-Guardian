@@ -257,7 +257,7 @@ struct global
   int T_SSR; // SSR temperature in C received from ESP via serial connection
   long int t_SSR; // Last time SSR temperature was received via serial interface
   byte serial_alt; // experimental
-  byte prog_on; // =1 when the PROG mode was initiated; 0 when just disabled
+  byte prog_on; // =1 when the PROG mode was initiated
 
   int motor; // Exhaust motor's next step (1...N_STEPS; motor disabled if 0)
   long int t0_motor; // Moment when the motor got the command to start moving, in us

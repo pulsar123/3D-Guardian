@@ -8,6 +8,10 @@ void read_sensors ()
   float T;
   int V1_raw, V2_raw, V_crit_raw, Vmax_raw, I_raw;
 
+  // No sensor reading in programming mode:
+  if (g.alarm == PROG)
+    return;
+
   // Going over all sensors in a loop, and reading the data if its due
   for (byte i = 0; i < N_SENSORS; i++)
   {
