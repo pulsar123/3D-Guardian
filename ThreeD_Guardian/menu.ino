@@ -573,3 +573,101 @@ void menu_train_load (byte mode, byte line)
   return;
 }
 
+
+void menu_init_all (byte mode, byte line)
+// Re-initialize all sensors training data (only when in training mode)
+{
+  if (g.alarm != TRAINING)
+    return;
+
+  const byte POS = 13;
+
+  lcd.setCursor(POS, line);
+  if (mode == 3)
+    mode = 2;
+
+  switch (mode)
+  {
+    case 0:
+      g.new_value = 0;
+      break;
+
+    case 1:
+      g.edit = 1;
+      break;
+
+    case 2:
+      g.new_value = 1 - g.new_value;
+      break;
+
+    case 4:
+      g.edit = 0;
+      g.screen = 0;
+      g.exit_menu = 1;
+      if (g.new_value == 1)
+      {
+        for (byte i = 0; i < N_SENSORS; i++)
+        {
+          init_sensor(&sensor[i].train);
+          // writing initial values to EEPROM:
+          EEPROM.put(g.addr_tr[i], sensor[i].train);
+        }
+      }
+      return;
+  }
+
+  if (g.new_value == 0)
+    lcd.print(" No");
+  else
+    lcd.print("Yes");
+
+  return;
+}
+
+
+void menu_init_one (byte mode, byte line)
+// Re-initialize training data for a single sensor (only when in training mode)
+{
+  if (g.alarm != TRAINING)
+    return;
+
+  const byte POS = 13;
+
+  lcd.setCursor(POS, line);
+
+  switch (mode)
+  {
+    case 0:
+      g.new_value = 0;
+      break;
+
+    case 1:
+      g.edit = 1;
+      break;
+
+    case 2:
+      if (g.new_value < N_SENSORS - 1)
+        g.new_value++;
+      break;
+
+    case 3:
+      if (g.new_value > 0)
+        g.new_value--;
+      break;
+
+    case 4:
+      g.edit = 0;
+      g.screen = 0;
+      g.exit_menu = 1;
+      init_sensor(&sensor[g.new_value].train);
+      // writing initial values to EEPROM:
+      EEPROM.put(g.addr_tr[g.new_value], sensor[g.new_value].train);
+      return;
+  }
+
+  lcd.print(sensor[g.new_value].name);
+
+  return;
+}
+
+

@@ -101,11 +101,13 @@ void menu_dt_case (byte mode, byte line);
 void menu_zero_voltage (byte mode, byte line);
 void menu_train_dump (byte mode, byte line);
 void menu_train_load (byte mode, byte line);
+void menu_init_all (byte mode, byte line);
+void menu_init_one (byte mode, byte line);
 
 // Total number of menu items (listed in the "struct MenuItem_struc MenuItem[N_MENU]" initialization below)
-const byte N_MENU = 14;
+const byte N_MENU = 17;
 // Maximum menu depth:
-const byte MENU_DEPTH = 2;
+const byte MENU_DEPTH = 3;
 
 /* The list of menu items. It doesn't have to be sorted in any particular order, so it's easy to add new items anywhere or remove old items.
    Important: the actual id's used in the program will be different (sequential starting from 0); don't use the specific ids from this list - ids are
@@ -133,14 +135,17 @@ struct MenuItem_struc MenuItem[N_MENU] = {
   {.name = "On/off",         .id =  4, .prev_id = NONE, .next_id =    5, .up_id =    1, .down_id = NONE, .func = menu_train_onoff},
   {.name = "Update",         .id =  5, .prev_id =    4, .next_id =   12, .up_id =    1, .down_id = NONE, .func = menu_update_train},
   {.name = "Init voltage",   .id = 12, .prev_id =    5, .next_id =   16, .up_id =    1, .down_id = NONE, .func = menu_zero_voltage},
+  {.name = "Re-init",        .id = 18, .prev_id =   12, .next_id =   16, .up_id =    1, .down_id =   19},
   {.name = "Train dump",     .id = 16, .prev_id =   12, .next_id =   17, .up_id =    1, .down_id = NONE, .func = menu_train_dump},
   {.name = "Train load",     .id = 17, .prev_id =   16, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_train_load},
 
   {.name = "T_target",       .id = 10, .prev_id = NONE, .next_id =   11, .up_id =    3, .down_id = NONE, .func = menu_T_target},
   {.name = "Fan time",       .id = 11, .prev_id =   10, .next_id =    6, .up_id =    3, .down_id = NONE, .func = menu_dt_case},
-  {.name = "Reset",          .id =  6, .prev_id =   11, .next_id = NONE, .up_id =    3, .down_id = NONE, .func = menu_factory_reset}
+  {.name = "Reset",          .id =  6, .prev_id =   11, .next_id = NONE, .up_id =    3, .down_id = NONE, .func = menu_factory_reset},
 
   // Third level
+  {.name = "All sensors",    .id = 19, .prev_id = NONE, .next_id =   20, .up_id =   18, .down_id = NONE, .func = menu_init_all},
+  {.name = "One sensor",     .id = 20, .prev_id =   19, .next_id = NONE, .up_id =   18, .down_id = NONE, .func = menu_init_one}
 };
 
 
