@@ -1,9 +1,21 @@
 void sound()
 /*
   Generating a sound signal in case of an alarm, on SOUND_PIN (any digital pin).
-  Also controls the red LED.
+  Also controls the red LED, and yellow LED blinking in PROG mode.
 */
 {
+
+  if (g.alarm == PROG)
+  {
+    if (g.t - g.prog_led_t0 > PROG_LED_PERIOD)
+    {
+      g.prog_led_t0 = g.t;
+      g.LEDy_state = 1 - g.LEDy_state;
+      digitalWrite(LEDY_PIN, g.LEDy_state);
+    }
+    return;
+  }
+
   if (g.alarm != ALARM && g.alarm != WARNING)
     return;
 

@@ -25,7 +25,7 @@ struct sensor_struc
   unsigned long int init_delay; // Initial delay in ms before the sensor starts reading (used mostly for CO/smoke sensors, which need some warm up time)
   // Parameters only used for a resistance sensor (current sensor + voltage sensor):
   float scaler; // V/A scaler (sensitivity) for the current sensor; =0.1 V/A for the 20A model of ACS712
-  byte pin2; // Second analogue pin (only used for a resistance sensor, to measure voltage)  
+  byte pin2; // Second analogue pin (only used for a resistance sensor, to measure voltage)
   float divider; // Voltage dividing factor, to convert from the heated bed voltage to <5V
   byte on; // The sensor readings enabled (1) / disabled (0)
   sensor_EEPROM_struc train; // Training data for EEPROM
@@ -59,6 +59,12 @@ const int ADDR_FAN_MODE = ADDR_T_TARGET + 2;
 const int ADDR_DT_CASE = ADDR_FAN_MODE + 2;
 // Address where the training data starts:
 const int ADDR_DATA = ADDR_DT_CASE + 2;
+// Address were the first copy (autosaved) of the trained data starts at:
+const int ADDR_DATA1 = ADDR_DATA + N_SENSORS*sizeof(sensor_EEPROM_struc);
+// Address were the second copy (first memory register) of the trained data starts at:
+const int ADDR_DATA2 = ADDR_DATA1 + N_SENSORS*sizeof(sensor_EEPROM_struc);
+// Address were the third copy (second memory register) of the trained data starts at:
+const int ADDR_DATA3 = ADDR_DATA2 + N_SENSORS*sizeof(sensor_EEPROM_struc);
 
 
 //+++++++++++++++++++ Menu stuff +++++++++++++++++++++++++++++++
@@ -99,10 +105,12 @@ void menu_factory_reset (byte mode, byte line);
 void menu_T_target (byte mode, byte line);
 void menu_dt_case (byte mode, byte line);
 void menu_zero_voltage (byte mode, byte line);
-void menu_train_dump (byte mode, byte line);
-void menu_train_load (byte mode, byte line);
+//void menu_train_dump (byte mode, byte line);
+//void menu_train_load (byte mode, byte line);
 void menu_init_all (byte mode, byte line);
 void menu_init_one (byte mode, byte line);
+void menu_load_data (byte mode, byte line);
+void menu_save_data (byte mode, byte line);
 
 // Total number of menu items (listed in the "struct MenuItem_struc MenuItem[N_MENU]" initialization below)
 const byte N_MENU = 17;
@@ -134,10 +142,12 @@ struct MenuItem_struc MenuItem[N_MENU] = {
 
   {.name = "On/off",         .id =  4, .prev_id = NONE, .next_id =    5, .up_id =    1, .down_id = NONE, .func = menu_train_onoff},
   {.name = "Update",         .id =  5, .prev_id =    4, .next_id =   12, .up_id =    1, .down_id = NONE, .func = menu_update_train},
-  {.name = "Init voltage",   .id = 12, .prev_id =    5, .next_id =   16, .up_id =    1, .down_id = NONE, .func = menu_zero_voltage},
-  {.name = "Re-init",        .id = 18, .prev_id =   12, .next_id =   16, .up_id =    1, .down_id =   19},
-  {.name = "Train dump",     .id = 16, .prev_id =   12, .next_id =   17, .up_id =    1, .down_id = NONE, .func = menu_train_dump},
-  {.name = "Train load",     .id = 17, .prev_id =   16, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_train_load},
+  {.name = "Init voltage",   .id = 12, .prev_id =    5, .next_id =   18, .up_id =    1, .down_id = NONE, .func = menu_zero_voltage},
+  {.name = "Re-init",        .id = 18, .prev_id =   12, .next_id =   21, .up_id =    1, .down_id =   19},
+  {.name = "Load data",      .id = 21, .prev_id =   18, .next_id =   22, .up_id =    1, .down_id = NONE, .func = menu_load_data},
+  {.name = "Save data",      .id = 22, .prev_id =   21, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_save_data},
+//  {.name = "Train dump",     .id = 16, .prev_id =   18, .next_id =   17, .up_id =    1, .down_id = NONE, .func = menu_train_dump},
+//  {.name = "Train load",     .id = 17, .prev_id =   16, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_train_load},
 
   {.name = "T_target",       .id = 10, .prev_id = NONE, .next_id =   11, .up_id =    3, .down_id = NONE, .func = menu_T_target},
   {.name = "Fan time",       .id = 11, .prev_id =   10, .next_id =    6, .up_id =    3, .down_id = NONE, .func = menu_dt_case},
@@ -252,6 +262,7 @@ struct global
   int T_target; // the target enclosure temperature in Celsius; saved in EEPROM
 
   byte LEDy_state; // Yellow LED state
+  long int prog_led_t0; // Last time the yellow LED state changed (in blinking - PROG - mode)
 
   long int serial_in_t0; // Last time serial communication was received
   long int serial_out_t0; // Last time serial communication was sent

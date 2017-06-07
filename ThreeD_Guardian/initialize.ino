@@ -17,12 +17,25 @@ void initialize(byte factory_reset)
 
     // writing initial values to EEPROM:
     EEPROM_put();
+    // Writing the same values to the three memory registers:
+    for (byte i = 0; i < N_SENSORS; i++)
+    {
+      EEPROM.put(ADDR_DATA1 + g.addr_tr[i] - ADDR_DATA, sensor[i].train);
+      EEPROM.put(ADDR_DATA2 + g.addr_tr[i] - ADDR_DATA, sensor[i].train);
+      EEPROM.put(ADDR_DATA3 + g.addr_tr[i] - ADDR_DATA, sensor[i].train);
+    }
   }
 
   else
   {
     // Reading the data from EEPROM:
     EEPROM_get();
+    // Autosaving the trained data to a copy in EEPROM at each boot time (only in TRAINING mode):
+    if (g.alarm = TRAINING)
+      for (byte i = 0; i < N_SENSORS; i++)
+      {
+        EEPROM.put(ADDR_DATA1 + g.addr_tr[i] - ADDR_DATA, sensor[i].train);
+      }
   }
 
   // Initially (first PROG_INIT ms) the controller is in PROG mode; it switches to the proper mode in cleanup()
@@ -30,7 +43,7 @@ void initialize(byte factory_reset)
   g.alarm = PROG;
   g.prog_on = 1;
   lcd.clear();
-  lcd.print("Initializing...");
+  lcd.print("Programming");
 
   // Resetting guarding sensor data after each reboot:
   for (byte i = 0; i < N_SENSORS; i++)

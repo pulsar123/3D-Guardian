@@ -513,9 +513,10 @@ void menu_zero_voltage (byte mode, byte line)
 }
 
 
-void menu_train_dump (byte mode, byte line)
-// Dump the training data to serial interface (only works when the seril connection with ESP is interrupted)
-{
+/*
+  void menu_train_dump (byte mode, byte line)
+  // Dump the training data to serial interface (only works when the seril connection with ESP is interrupted)
+  {
   if (g.t - g.t_SSR <= DT_SSR_MAX)
     return;
 
@@ -526,12 +527,12 @@ void menu_train_dump (byte mode, byte line)
     // Instantly going back to the default screen:
     g.exit_menu = 1;
   }
-}
+  }
 
 
-void menu_train_load (byte mode, byte line)
-// Load training data from serial interface  (only works when the seril connection with ESP is interrupted)
-{
+  void menu_train_load (byte mode, byte line)
+  // Load training data from serial interface  (only works when the seril connection with ESP is interrupted)
+  {
   if (g.t - g.t_SSR <= DT_SSR_MAX)
     return;
 
@@ -571,7 +572,8 @@ void menu_train_load (byte mode, byte line)
     lcd.print("Yes");
 
   return;
-}
+  }
+*/
 
 
 void menu_init_all (byte mode, byte line)
@@ -606,9 +608,13 @@ void menu_init_all (byte mode, byte line)
       g.exit_menu = 1;
       if (g.new_value == 1)
       {
+        int zero = sensor[g.resistance_sensor].train.zero;
         for (byte i = 0; i < N_SENSORS; i++)
         {
           init_sensor(&sensor[i].train);
+          // We preserve the old value of the zero voltage calibration (only for the resistance sensor):
+          if (i == g.resistance_sensor)
+            sensor[i].train.zero = zero;
           // writing initial values to EEPROM:
           EEPROM.put(g.addr_tr[i], sensor[i].train);
         }
@@ -628,6 +634,8 @@ void menu_init_all (byte mode, byte line)
 void menu_init_one (byte mode, byte line)
 // Re-initialize training data for a single sensor (only when in training mode)
 {
+  int zero;
+
   if (g.alarm != TRAINING)
     return;
 
@@ -659,13 +667,124 @@ void menu_init_one (byte mode, byte line)
       g.edit = 0;
       g.screen = 0;
       g.exit_menu = 1;
+      if (g.new_value == g.resistance_sensor)
+        zero = sensor[g.resistance_sensor].train.zero;
       init_sensor(&sensor[g.new_value].train);
+      // We preserve the old value of the zero voltage calibration (only for the resistance sensor):
+      if (g.new_value == g.resistance_sensor)
+        sensor[g.new_value].train.zero = zero;
       // writing initial values to EEPROM:
       EEPROM.put(g.addr_tr[g.new_value], sensor[g.new_value].train);
       return;
   }
 
   lcd.print(sensor[g.new_value].name);
+
+  return;
+}
+
+
+void menu_load_data (byte mode, byte line)
+// Load training data from EEPROm copy (either auto-saved data, or two custom registers)
+{
+
+  const byte POS = 12;
+
+  lcd.setCursor(POS, line);
+
+  switch (mode)
+  {
+    case 0:
+      g.new_value = 0;
+      break;
+
+    case 1:
+      g.edit = 1;
+      break;
+
+    case 2:
+      if (g.new_value < 2)
+        g.new_value++;
+      break;
+
+    case 3:
+      if (g.new_value > 0)
+        g.new_value--;
+      break;
+
+    case 4:
+      g.edit = 0;
+      g.screen = 0;
+      g.exit_menu = 1;
+      for (byte i = 0; i < N_SENSORS; i++)
+      {
+        // Reading the training data from one of the three EEPROM registers:
+        if (g.new_value == 0)
+          EEPROM.get(ADDR_DATA1 + g.addr_tr[i] - ADDR_DATA, sensor[i].train);
+        else if (g.new_value == 1)
+          EEPROM.get(ADDR_DATA2 + g.addr_tr[i] - ADDR_DATA, sensor[i].train);
+        else
+          EEPROM.get(ADDR_DATA3 + g.addr_tr[i] - ADDR_DATA, sensor[i].train);
+        // Writing the loaded data to EEPROM:
+        EEPROM.put(g.addr_tr[i], sensor[i].train);
+      }
+      return;
+  }
+
+  if (g.new_value == 0)
+    lcd.print("Auto");
+  else if (g.new_value == 1)
+    lcd.print("Reg1");
+  else
+    lcd.print("Reg2");
+
+  return;
+}
+
+
+void menu_save_data (byte mode, byte line)
+// Save training data to one of the two custome registers in EEPROM
+{
+
+  const byte POS = 12;
+
+  lcd.setCursor(POS, line);
+  if (mode == 3)
+    mode = 2;
+
+  switch (mode)
+  {
+    case 0:
+      g.new_value = 0;
+      break;
+
+    case 1:
+      g.edit = 1;
+      break;
+
+    case 2:
+      g.new_value = 1 - g.new_value;
+      break;
+
+    case 4:
+      g.edit = 0;
+      g.screen = 0;
+      g.exit_menu = 1;
+      for (byte i = 0; i < N_SENSORS; i++)
+      {
+        // Saving the training data to one of the two EEPROM registers:
+        if (g.new_value == 0)
+          EEPROM.put(ADDR_DATA2 + g.addr_tr[i] - ADDR_DATA, sensor[i].train);
+        else
+          EEPROM.put(ADDR_DATA3 + g.addr_tr[i] - ADDR_DATA, sensor[i].train);
+      }
+      return;
+  }
+
+  if (g.new_value == 0)
+    lcd.print("Reg1");
+  else
+    lcd.print("Reg2");
 
   return;
 }
