@@ -21,15 +21,6 @@ void temperature()
       T_int = T1 / 10;
       i_T = 0;
       sum_T = 0.0;
-      if (bad_temp == 0 && T_avr > T_MAX)
-        // We exceeded the critical SSR temperature; disabling SSR until the controller is rebooted:
-      {
-        bad_temp = 1;
-        // Send the SHUTDOWN command to Arduino via serial connection:
-        Serial.print(MAGIC_EtoA"S");
-        if (MQTT_on)
-          client.publish(MQTT"/out/alarm", "1");
-      }
 
       if (T_int < 0)
         T_int = 0;        

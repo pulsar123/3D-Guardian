@@ -6,7 +6,7 @@
   Based on a ESP8266 example from PubSubClient library (https://github.com/knolleary/pubsubclient)
 
   Using non-blocking functions for WiFi and MQTT connections. The only functionalities which work without WiFi and/or MQTT
-  are the thermal protection of the Solid State Relay, and the Panick button. If T_SSR>T_MAX or the Panick button is pressed,
+  are the thermal protection of the Solid State Relay, and the Panick button. If Panick button is pressed,
   a serial command to shut down the printer will be sent to Arduino over the serial interface.
 
   To install the ESP8266 board, (using Arduino 1.6.4+):
@@ -46,7 +46,6 @@ void setup()
   s_char = '\0';
   sum_T = 0.0;
   i_T = 0;
-  bad_temp = 0;
   T_avr = 0;
   WiFi_on = 0;
   MQTT_on = 0;
@@ -65,7 +64,7 @@ void loop()
 
   t = millis();
 
-  // Checking the SSR temperature, and sending STOP signal to Arduino if over T_MAX:
+  // Checking the SSR temperature, and send it to Arduino over serial:
   temperature();
 
   // Receiving serial data from Arduino, transmitting it via MQTT:
@@ -78,5 +77,5 @@ void loop()
   mqtt();
 
   // LED warning:
-  LED();
+//  LED();
 }
