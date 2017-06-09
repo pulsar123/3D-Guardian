@@ -6,8 +6,8 @@
 void read_LCD_buttons()
 {
   //!!!
-//  if (g.alarm == ALARM)
-//    return;
+  //  if (g.alarm == ALARM)
+  //    return;
 
   if (g.alarm == PROG)
     return;
@@ -44,7 +44,6 @@ void read_LCD_buttons()
     if (g.key_old == NOKEY)
       // A key has just been pressed:
     {
-      g.key_t0 = g.t;
       g.key_count = 0;
     }
     else
@@ -59,6 +58,9 @@ void read_LCD_buttons()
 
     if (g.key_pressed)
     {
+      // Updating the time as long as a key is being pressed:
+      g.key_t0 = g.t;
+
       g.refresh_display = 1;
       switch (g.key)
       {

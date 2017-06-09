@@ -9,7 +9,8 @@ void initialize(byte factory_reset)
     g.alarm = TRAINING;
     g.T_target = 50;
     g.fan_mode = 1;
-    g.dt_case = 10;
+    g.dt_case = 900;
+    g.manual_fan = 127;
 
     // Initial EEPROM values:
     for (byte i = 0; i < N_SENSORS; i++)

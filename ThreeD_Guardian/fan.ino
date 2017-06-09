@@ -45,6 +45,16 @@ void fan()
   }
 
   else if (g.fan_mode == 2)
+    // Fan on at the manual level
+  {
+    if (g.duty != g.manual_fan)
+    {
+      g.duty = g.manual_fan;
+      update_duty();
+    }
+  }
+
+  else if (g.fan_mode == 3)
     // Fan on
   {
     if (g.duty < MAX_DUTY)

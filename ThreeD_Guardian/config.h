@@ -57,8 +57,10 @@ const int ADDR_ALARM = 0;  // Last good g.alarm state (can be either TRAINING or
 const int ADDR_T_TARGET = ADDR_ALARM + 2;
 const int ADDR_FAN_MODE = ADDR_T_TARGET + 2;
 const int ADDR_DT_CASE = ADDR_FAN_MODE + 2;
+const int ADDR_MANUAL_FAN = ADDR_DT_CASE + 2;
+
 // Address where the training data starts:
-const int ADDR_DATA = ADDR_DT_CASE + 2;
+const int ADDR_DATA = ADDR_MANUAL_FAN + 2;
 // Address were the first copy (autosaved) of the trained data starts at:
 const int ADDR_DATA1 = ADDR_DATA + N_SENSORS*sizeof(sensor_EEPROM_struc);
 // Address were the second copy (first memory register) of the trained data starts at:
@@ -104,6 +106,7 @@ void menu_fan_control (byte mode, byte line);
 void menu_factory_reset (byte mode, byte line);
 void menu_T_target (byte mode, byte line);
 void menu_dt_case (byte mode, byte line);
+void menu_manual_fan (byte mode, byte line);
 void menu_zero_voltage (byte mode, byte line);
 //void menu_train_dump (byte mode, byte line);
 //void menu_train_load (byte mode, byte line);
@@ -113,7 +116,7 @@ void menu_load_data (byte mode, byte line);
 void menu_save_data (byte mode, byte line);
 
 // Total number of menu items (listed in the "struct MenuItem_struc MenuItem[N_MENU]" initialization below)
-const byte N_MENU = 17;
+const byte N_MENU = 18;
 // Maximum menu depth:
 const byte MENU_DEPTH = 3;
 
@@ -150,8 +153,9 @@ struct MenuItem_struc MenuItem[N_MENU] = {
 //  {.name = "Train load",     .id = 17, .prev_id =   16, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_train_load},
 
   {.name = "T_target",       .id = 10, .prev_id = NONE, .next_id =   11, .up_id =    3, .down_id = NONE, .func = menu_T_target},
-  {.name = "Fan time",       .id = 11, .prev_id =   10, .next_id =    6, .up_id =    3, .down_id = NONE, .func = menu_dt_case},
-  {.name = "Reset",          .id =  6, .prev_id =   11, .next_id = NONE, .up_id =    3, .down_id = NONE, .func = menu_factory_reset},
+  {.name = "Fan time",       .id = 11, .prev_id =   10, .next_id =   23, .up_id =    3, .down_id = NONE, .func = menu_dt_case},
+  {.name = "Manual fan",     .id = 23, .prev_id =   11, .next_id =    6, .up_id =    3, .down_id = NONE, .func = menu_manual_fan},
+  {.name = "Reset",          .id =  6, .prev_id =   23, .next_id = NONE, .up_id =    3, .down_id = NONE, .func = menu_factory_reset},
 
   // Third level
   {.name = "All sensors",    .id = 19, .prev_id = NONE, .next_id =   20, .up_id =   18, .down_id = NONE, .func = menu_init_all},
@@ -244,7 +248,7 @@ struct global
   byte key_pressed; // 1 if a key was just pressed; 0 otherwise
   byte key_released; // 1 if a key was just released; 0 otherwise
   long int keys_t0; // Last time keys were read
-  long int key_t0; // Time of the last key press;
+  long int key_t0; // Time when a key was pressed last time;
   long int key_count; // Counting the number of key reads with a key continuously pressed
 
   long int sp_t0; // Time of the last buzzer state change
@@ -260,6 +264,7 @@ struct global
   byte duty_perc_old; // Previous loop value of duty_perc
   long int fan_t0; // last time fan's speed was checked/changed
   int T_target; // the target enclosure temperature in Celsius; saved in EEPROM
+  byte manual_fan; // The fan speed in the manual fan mode (1...254); only makes sense when PWM is used
 
   byte LEDy_state; // Yellow LED state
   long int prog_led_t0; // Last time the yellow LED state changed (in blinking - PROG - mode)

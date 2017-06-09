@@ -124,6 +124,7 @@ void EEPROM_put()
   EEPROM.put(ADDR_T_TARGET, g.T_target);
   EEPROM.put(ADDR_FAN_MODE, g.fan_mode);
   EEPROM.put(ADDR_DT_CASE, g.dt_case);
+  EEPROM.put(ADDR_MANUAL_FAN, g.manual_fan);
 
   if (g.alarm == TRAINING)
     // Only storing the training data to EEPROM:
@@ -141,6 +142,7 @@ void EEPROM_get()
   EEPROM.get(ADDR_T_TARGET, g.T_target);
   EEPROM.get(ADDR_FAN_MODE, g.fan_mode);
   EEPROM.get(ADDR_DT_CASE, g.dt_case);
+  EEPROM.get(ADDR_MANUAL_FAN, g.manual_fan);
   for (byte i = 0; i < N_SENSORS; i++)
     EEPROM.get(g.addr_tr[i], sensor[i].train);
 
@@ -222,12 +224,19 @@ long int t_motor (int step)
 
 
 void clear_the_case ()
-// Initiating clearing the case (running fan at full speed, using motor to open the exhaust lid)
+// Enabling/disabling clearing the case (running fan at full speed, using motor to open the exhaust lid)
 {
-  g.case_clearing = 1;
-  g.case_t0 = g.t;
-  g.fan_mode_old = g.fan_mode;
-  g.fan_mode = 2;
+  g.case_clearing = 1 - g.case_clearing;
+  if (g.case_clearing == 1)
+  {
+    g.case_t0 = g.t;
+    g.fan_mode_old = g.fan_mode;
+    g.fan_mode = 3;
+  }
+  else
+  {
+    g.fan_mode = g.fan_mode_old;
+  }
   return;
 }
 

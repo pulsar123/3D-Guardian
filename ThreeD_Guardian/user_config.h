@@ -87,7 +87,7 @@ const long int SCREEN0_DT = 15000; // Time out after a key press to default scre
 const long int KEYS_DT = 10; //  Read keys every this many ms
 const long int N_KEY_COUNT = 10; // Accept a key press if it was continuously read this many times
 const long int N_KEY_START = 100; // After this many continuous reads of a key, start the key auto-repeating mode
-const long int N_KEY_REPEAT = 20; // Number of key reads for each repeat
+const long int N_KEY_REPEAT = 10; // Number of key reads for each repeat
 
 // Temperature stuff:
 // The range of allowed target temperatures inside the enclosure (sensor with the type = 2), Celsius:
@@ -108,7 +108,7 @@ const long int CHIRP_PERIOD = 10000; // Time interval (ms) between chirps, in WA
 // Exhaust fan stuff (controlled via PWM at 31 kHz)
 //  If defined, it is assumed that the fan doesn't have PWM  control, and can only be truned on (g.duty=255) and off (g.duty=0).
 //  In this case FAN_PIN turns on/off the fan via a MOSFET
-#define NO_PWM
+//#define NO_PWM
 const int DT_CASE_MIN = 10; // Shortest allowed time for fan to run (seconds) during case clearing
 const int DT_CASE_MAX = 990; // Longest allowed time for fan to run (seconds) during case clearing
 const float FAN_SCALE = 10.0; // Sensitivity of the fan; change in fan's duty cycle for each 1C temperature difference, at each cycle

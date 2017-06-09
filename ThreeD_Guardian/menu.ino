@@ -216,7 +216,6 @@ void menu_train_onoff (byte mode, byte line)
     else
       training (0);
 
-    g.screen = 0;
     g.exit_menu = 1;
   }
   return;
@@ -239,7 +238,6 @@ void menu_update_train (byte mode, byte line)
       sensor[i].train.sum = sensor[i].train.sum + sensor[i].guard.sum;
       EEPROM.put(g.addr_tr[i], sensor[i].train);
     }
-    g.screen = 0;
     g.exit_menu = 1;
     // recomputing all warning and alarm limits:
     update_limits_all ();
@@ -255,7 +253,6 @@ void menu_clear_case (byte mode, byte line)
   {
     clear_the_case();
     // Instantly going back to the default screen:
-    g.screen = 0;
     g.exit_menu = 1;
   }
   return;
@@ -265,7 +262,7 @@ void menu_clear_case (byte mode, byte line)
 void menu_fan_control (byte mode, byte line)
 // A typical "change variable" action function.
 {
-  const byte POS = 12;
+  const byte POS = 10;
 
   lcd.setCursor(POS, line);
 
@@ -280,7 +277,7 @@ void menu_fan_control (byte mode, byte line)
       break;
 
     case 2:
-      if (g.new_value < 2)
+      if (g.new_value < 3)
         g.new_value++;
       break;
 
@@ -293,17 +290,20 @@ void menu_fan_control (byte mode, byte line)
       g.edit = 0;
       g.fan_mode = g.new_value;
       EEPROM.put(ADDR_FAN_MODE, g.fan_mode);
+      g.exit_menu = 1;
       return;
   }
 
   //lcd.print(g.new_value);
 
   if (g.new_value == 0)
-    lcd.print(" Off");
+    lcd.print("   Off");
   else if (g.new_value == 1)
-    lcd.print("Auto");
+    lcd.print("  Auto");
+  else if (g.new_value == 2)
+    lcd.print("Manual");
   else
-    lcd.print("  On");
+    lcd.print("    On");
 
   return;
 }
@@ -336,7 +336,6 @@ void menu_factory_reset (byte mode, byte line)
       g.edit = 0;
       // Performing the factory reset:
       initialize(1);
-      g.screen = 0;
       g.exit_menu = 1;
       return;
   }
@@ -417,7 +416,6 @@ void menu_printer (byte mode, byte line)
       g.edit = 0;
       g.printer = g.new_value;
       digitalWrite(SSR_PIN, g.printer);
-      g.screen = 0;
       g.exit_menu = 1;
       return;
   }
@@ -469,6 +467,48 @@ void menu_dt_case (byte mode, byte line)
 }
 
 
+
+void menu_manual_fan (byte mode, byte line)
+{
+  const byte POS = 13;
+  lcd.setCursor(POS, line);
+  switch (mode)
+  {
+    case 0:
+      g.new_value = (int)(100 * (float)g.manual_fan / (float)255 + 0.5);
+      break;
+
+    case 1:
+      g.edit = 1;
+      break;
+
+    case 2:
+      if (g.new_value < 99)
+        g.new_value++;
+      break;
+
+    case 3:
+      if (g.new_value > 1)
+        g.new_value--;;
+      break;
+
+    case 4:
+      g.edit = 0;
+      // Converting the percentage (0...100%) to a byte range (0...255):
+      g.manual_fan = (int)(((float)g.new_value) * 2.55 + 0.5);
+      EEPROM.put(ADDR_MANUAL_FAN, g.manual_fan);
+      return;
+  }
+
+  sprintf(g.buffer, "%3d", g.new_value);
+  lcd.print(g.buffer);
+
+  return;
+}
+
+
+
+
 void menu_zero_voltage (byte mode, byte line)
 // Use the current average value of the type=3 (resistance) sensor to update sensor[g.resistance_sensor].train.zero
 // Run this during initial training, when there is no voltage to the load (heated bed)
@@ -502,7 +542,6 @@ void menu_zero_voltage (byte mode, byte line)
         sensor[i].i = 0;
         sensor[i].alarm_max = 0;
       }
-      g.screen = 0;
       g.exit_menu = 1;
       break;
   }
@@ -604,7 +643,6 @@ void menu_init_all (byte mode, byte line)
 
     case 4:
       g.edit = 0;
-      g.screen = 0;
       g.exit_menu = 1;
       if (g.new_value == 1)
       {
@@ -665,7 +703,6 @@ void menu_init_one (byte mode, byte line)
 
     case 4:
       g.edit = 0;
-      g.screen = 0;
       g.exit_menu = 1;
       if (g.new_value == g.resistance_sensor)
         zero = sensor[g.resistance_sensor].train.zero;
@@ -714,7 +751,6 @@ void menu_load_data (byte mode, byte line)
 
     case 4:
       g.edit = 0;
-      g.screen = 0;
       g.exit_menu = 1;
       for (byte i = 0; i < N_SENSORS; i++)
       {
@@ -768,7 +804,6 @@ void menu_save_data (byte mode, byte line)
 
     case 4:
       g.edit = 0;
-      g.screen = 0;
       g.exit_menu = 1;
       for (byte i = 0; i < N_SENSORS; i++)
       {
