@@ -161,3 +161,10 @@ void serial()
   return;
 }
 
+
+
+void serialEvent()
+{
+  t_last_serial = g.t;
+}
+

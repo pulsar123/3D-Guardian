@@ -297,6 +297,8 @@ struct global
 
 struct global g;
 
+volatile long int t_last_serial;
+
 // This fixes a weird "unable to find a register to spill" error (solution found in https://github.com/arduino/Arduino/issues/3972 )
 void display() __attribute__((__optimize__("O2")));
 

@@ -139,6 +139,7 @@ void setup()
   g.T_SSR = 0;
   g.t_SSR = g.t - DT_SSR_MAX - 1;
   g.prog_led_t0 = g.t;
+  t_last_serial = g.t - DT_SSR_MAX - 1;
   // The serial connection to ESP8266 controller, for the WiFi interface:
   // (In DEBUG mode it is used to print sensor data to PC instead)
   Serial.begin(115200);

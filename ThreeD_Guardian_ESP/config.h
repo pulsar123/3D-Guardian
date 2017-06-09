@@ -20,7 +20,7 @@ const byte LED1 = 2;  // D4/2
 const byte BUTTON_PIN = 14; // D5
 
 // Thermistor stuff 
-const long DT_TH = 10; // raw temperarture measurement interval, ms
+const long DT_TH = 100; // raw temperarture measurement interval, ms
 const int N_T = 10; // average temperature over this many measurements (so the actual temperature is updated every N_T*DT_TH ms)
 const byte TH_PIN = A0; // The analogue pin used:
 const float R_PULL = 45900; // Pullup  resistor (Ohms) used with the 50k thermistor on A0 pin

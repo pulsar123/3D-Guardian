@@ -653,12 +653,12 @@ void menu_init_one (byte mode, byte line)
       g.edit = 1;
       break;
 
-    case 2:
+    case 3:
       if (g.new_value < N_SENSORS - 1)
         g.new_value++;
       break;
 
-    case 3:
+    case 2:
       if (g.new_value > 0)
         g.new_value--;
       break;
@@ -702,12 +702,12 @@ void menu_load_data (byte mode, byte line)
       g.edit = 1;
       break;
 
-    case 2:
+    case 3:
       if (g.new_value < 2)
         g.new_value++;
       break;
 
-    case 3:
+    case 2:
       if (g.new_value > 0)
         g.new_value--;
       break;
