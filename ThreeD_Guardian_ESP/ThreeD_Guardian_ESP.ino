@@ -39,6 +39,7 @@ void setup()
   t0 = t;
   t_a0 = t;
   t_serial = t;
+  t_beacon = t;
   t_led1 = t;
   first_send = 1;
   first_packet = 1;

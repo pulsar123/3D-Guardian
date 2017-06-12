@@ -92,7 +92,7 @@ const long int N_KEY_REPEAT = 10; // Number of key reads for each repeat
 // Temperature stuff:
 // The range of allowed target temperatures inside the enclosure (sensor with the type = 2), Celsius:
 const int T_TARGET_MIN = 10;
-const int T_TARGET_MAX = 80;
+const int T_TARGET_MAX = 70;
 // This is a simplified approach - assumes that all the thermistors we use are identical, and that all the analogue pins the thermistors
 // are connected to have identical pullup resistance values.
 // The parameters for the thermistor(s):
@@ -109,8 +109,8 @@ const long int CHIRP_PERIOD = 10000; // Time interval (ms) between chirps, in WA
 //  If defined, it is assumed that the fan doesn't have PWM  control, and can only be truned on (g.duty=255) and off (g.duty=0).
 //  In this case FAN_PIN turns on/off the fan via a MOSFET
 //#define NO_PWM
-const int DT_CASE_MIN = 10; // Shortest allowed time for fan to run (seconds) during case clearing
-const int DT_CASE_MAX = 990; // Longest allowed time for fan to run (seconds) during case clearing
+const int DT_CASE_MIN = 1; // Shortest allowed time for fan to run (minutes) during case clearing
+const int DT_CASE_MAX = 99; // Longest allowed time for fan to run (minutes) during case clearing
 const float FAN_SCALE = 10.0; // Sensitivity of the fan; change in fan's duty cycle for each 1C temperature difference, at each cycle
 const byte MAX_DUTY = 255; // Maxium allowed fan's duty cycle; can be 0...255
 const long int FAN_DT = SENS_DT * SENS_N; // Time interval to update the fan's speed = time interval for temperature recalculations
@@ -131,6 +131,6 @@ const long int MOTOR_DELAY_MS = 2000; // Both inlet and outlet motors will start
 const long int SERIAL_IN_DT = 100; // How frequently incoming serial communication is to be checked (ms)
 const long int SERIAL_OUT_DT = 500; // How frequently outgoing short serial communication is to be sent (ms)
 const int N_SERIAL_MAX = 10; // Every this many short serial out communications send one long (full sensor update) one
-const long int DT_SSR_MAX = 1500; // If the SSR temperature hasn't been received from ESP for that many ms, the serial connection is presumed to have been broken, and we enter PROG mode
+const long int DT_SSR_MAX = 2000; // If the SSR temperature hasn't been received from ESP for that many ms, the serial connection is presumed to have been broken, and we enter PROG mode
 const long int PROG_INIT = 2000; // Initial delay in ms when the controller is in PROG mode (no training or guarding)
 const long int PROG_LED_PERIOD = 250; // Half-period for yellow LED blinking in PROG mode (ms)

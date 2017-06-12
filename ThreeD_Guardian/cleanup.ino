@@ -39,9 +39,9 @@ void cleanup()
       g.prog_on = 1;
       g.prog_led_t0 = g.t;
       // Shutting down the fan:
-      g.case_clearing = 0;
-      g.duty = 0;
-      update_duty();
+//      g.case_clearing = 0;
+//      g.duty = 0;
+//      update_duty();
       lcd.clear();
       lcd.print("Programming");
     }

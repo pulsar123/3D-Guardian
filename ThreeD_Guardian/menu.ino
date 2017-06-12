@@ -431,12 +431,12 @@ void menu_printer (byte mode, byte line)
 
 void menu_dt_case (byte mode, byte line)
 {
-  const byte POS = 12;
+  const byte POS = 13;
   lcd.setCursor(POS, line);
   switch (mode)
   {
     case 0:
-      g.new_value = g.dt_case;
+      g.new_value = g.dt_case/60;
       break;
 
     case 1:
@@ -444,23 +444,23 @@ void menu_dt_case (byte mode, byte line)
       break;
 
     case 2:
-      if (g.new_value <= DT_CASE_MAX - 10)
-        g.new_value = g.new_value + 10;
+      if (g.new_value < DT_CASE_MAX)
+        g.new_value = g.new_value + 1;
       break;
 
     case 3:
       if (g.new_value > DT_CASE_MIN)
-        g.new_value = g.new_value - 10;
+        g.new_value = g.new_value - 1;
       break;
 
     case 4:
       g.edit = 0;
-      g.dt_case = g.new_value;
+      g.dt_case = g.new_value*60;
       EEPROM.put(ADDR_DT_CASE, g.dt_case);
       return;
   }
 
-  sprintf(g.buffer, "%4d", g.new_value);
+  sprintf(g.buffer, "%2d", g.new_value);
   lcd.print(g.buffer);
 
   return;

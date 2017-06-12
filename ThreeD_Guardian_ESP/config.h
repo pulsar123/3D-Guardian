@@ -45,6 +45,7 @@ const long LED1_DT = 250; // Blinking interval in ms for LED1 when there is no s
 const byte MAX_COMMAND = 20; // Maximum number of commands which can be received in a single serial communication:
 byte i_command[MAX_COMMAND]; // starting indexes of the incoming serial commands
 byte bytes[MAX_COMMAND]; // number of bytes in each command
+const long BEACON_DT = 100; // Sending the beacon signal to Arduino every these many ms
 
 long int DT_DEBOUNCE = 200; // Debouncing time for the panic button, in ms
 
@@ -69,6 +70,6 @@ int i_T, T_int, T_dec, i_mqtt_T;
 byte WiFi_on, MQTT_on;
 byte mqtt_init;
 volatile byte panic; // Needs to be volatile as it is used by an interrupt function
-long int t_serial, t_led1;
+long int t_serial, t_led1, t_beacon;
 byte timeout;
 byte blink_state;
