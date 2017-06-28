@@ -51,6 +51,7 @@ void setup()
   digitalWrite(SLEEP_PIN, LOW); // Initially no holding torque
   delay(1);
   digitalWrite(STEP_PIN, LOW);
+  g.no_sensors = 0;
   for (byte i = 0; i < N_SENSORS; i++)
   {
     if (sensor[i].type == 0)
@@ -64,7 +65,17 @@ void setup()
     }
     else
       // Internal pullup resistor for pins used for thermistors:
+    {
       pinMode(sensor[i].pin, INPUT_PULLUP);
+      if (g.no_sensors == 0)
+        // Using the first thermistor sensor to test if the printer cable is connected at boot time (if not, sensor reading will be disabled until reboot)
+      {
+        int Raw = analogRead(sensor[i].pin);
+        // The sign that the cable is disconnected (the pin pulled high internally):
+        if (Raw > 1022)
+          g.no_sensors = 1;
+      }
+    }
   }
 
   // Initially the printer is on (can be turned off in case of an alarm, from WiFi or menu):

@@ -9,7 +9,7 @@ void read_sensors ()
   int V1_raw, V2_raw, V_crit_raw, Vmax_raw, I_raw;
 
   // No sensor reading in programming mode:
-  if (g.alarm == PROG)
+  if (g.alarm == PROG || g.no_sensors)
     return;
 
   // Going over all sensors in a loop, and reading the data if its due

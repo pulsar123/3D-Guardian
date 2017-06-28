@@ -293,6 +293,7 @@ struct global
 
   byte printer; // 0/1 if the printer is off/on
   byte bad_sensor; // The id of the sensor - biggest offender when a warning is issued
+  byte no_sensors; // If 1, cable to teh printer is disconnected, sensor readings disabled (0 - connected)
 
   char buffer[BUF_SIZE];  // Buffer for strings
   char buf1[4]; // Temp buffers

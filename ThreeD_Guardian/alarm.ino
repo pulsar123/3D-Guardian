@@ -10,7 +10,7 @@ void alarm()
   byte i_max;
 
 
-  if (g.alarm == TRAINING || g.alarm == ALARM || g.alarm == PROG)
+  if (g.alarm == TRAINING || g.alarm == ALARM || g.alarm == PROG || g.no_sensors)
     return;
 
   warning = 0;
