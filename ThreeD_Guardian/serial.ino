@@ -96,6 +96,15 @@ void serial()
           {
             clear_the_case();
           }
+
+          else if (strncmp(&g.buffer[g.i_command[i]], "M", 1) == 0)
+            // Training / Guarding mode toggle
+          {
+            if (g.alarm == TRAINING)
+              training (0);
+            else
+              training (1);
+          }
         }
 
         if (strncmp(&g.buffer[g.i_command[i]], "T", 1) == 0)

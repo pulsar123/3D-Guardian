@@ -17,8 +17,7 @@ void temperature()
     if (i_T == N_T)
     {
       T_avr = sum_T / N_T;
-      int T1 = (int)(T_avr * 10.0 + 0.5);
-      T_int = T1 / 10;
+      T_int = (int)(T_avr + 0.5);
       i_T = 0;
       sum_T = 0.0;
 

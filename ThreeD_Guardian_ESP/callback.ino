@@ -21,6 +21,15 @@ void callback(char* topic, byte* payload, unsigned int length)
     }
   }
 
+  // Training/Guarding mode toggle:
+  if (strcmp(topic, MQTT"/training/switch") == 0)
+  {
+    if ((char)payload[0] == '1')
+    {
+      // Send the command to Arduino via serial connection:
+      Serial.print(MAGIC_EtoA"M");
+    }
+  }
   // Refresh everything command:
   if (strcmp(topic, "openhab/start") == 0)
   {
