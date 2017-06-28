@@ -1,11 +1,11 @@
 void sound()
 /*
   Generating a sound signal in case of an alarm, on SOUND_PIN (any digital pin).
-  Also controls the red LED, and yellow LED blinking in PROG mode.
+  Also controls the red LED, and yellow LED blinking in PROG/no_sensors modes.
 */
 {
 
-  if (g.alarm == PROG)
+  if (g.alarm == PROG || g.no_sensors)
   {
     if (g.t - g.prog_led_t0 > PROG_LED_PERIOD)
     {
