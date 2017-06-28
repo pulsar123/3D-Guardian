@@ -19,7 +19,8 @@
   - Thermistor 1: A1 pullup resistor is 35.98k. Measured in the interval +1 ... +100C, the Steinhart–Hart equation for my "NTC MF58 3950 B 50K" thermistor
    from ebay is
        1/T = 3.372535e-04 + 2.791091e-04*ln(R) - 6.351293e-09*[ln(R)]^3
-    The last (cubic) term is statistically insignificant. Dropping it results in no loss of the accuracy, so I'll be using the following simpler equation:
+    The last (cubic) term is statistically insignificant. Dropping it results in no loss of the accuracy, so I'll be es
+    using the following simpler equation:
        1/T = 3.503602e-04 + 2.771397e-04*ln(R)
     Here T is in Kelvin, and R is in Ohms. The uncertainty for the two numeric coefficients is 3% and 0.4%, respectively. The std for the temperature
     measurements is 0.4C for the whole interval (1...100C). The measured B coefficient is 3608K (the nominal value is 3950K), the measured resistance at
@@ -35,7 +36,7 @@
 void setup()
 {
   // Changing the PWM frequency for the pin 11 (also 3) to 31,372 Hz (for fan control); timer 2
-  TCCR2B = (TCCR2B & 0b11111000) | 0x01;
+  //  TCCR2B = (TCCR2B & 0b11111000) | 0x01;
 
   // Increasing the ADC speed by 8x (https://www.gammon.com.au/adc):
   ADCSRA &= ~(bit (ADPS0) | bit (ADPS1) | bit (ADPS2)); // clear prescaler bits
@@ -139,7 +140,6 @@ void setup()
   g.T_SSR = 0;
   g.t_SSR = g.t - DT_SSR_MAX - 1;
   g.prog_led_t0 = g.t;
-  t_last_serial = g.t - DT_SSR_MAX - 1;
   // The serial connection to ESP8266 controller, for the WiFi interface:
   // (In DEBUG mode it is used to print sensor data to PC instead)
   Serial.begin(115200);

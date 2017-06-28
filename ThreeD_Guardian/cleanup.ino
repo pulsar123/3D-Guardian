@@ -17,8 +17,7 @@ void cleanup()
   if (g.t - g.t0_init > PROG_INIT)
   {
     // After initial delay, switch the controller to the mode read from EEPROm at boot time (only if serial communication with ESP is already established):
-    //    if (g.prog_on == 1 && g.t - g.t_SSR < DT_SSR_MAX)
-    if (g.prog_on == 1 && g.t - t_last_serial < DT_SSR_MAX)
+    if (g.prog_on == 1 && g.t - g.t_SSR < DT_SSR_MAX)
     {
       g.alarm = g.alarm_ini;
       g.prog_on = 0;
@@ -29,10 +28,10 @@ void cleanup()
       g.screen = 0;
       g.exit_menu = 1;
       g.refresh_display = 1;
+ 
     }
     // If no serial communication for > DT_SSR_MAX ms, we are switching to the PROG mode:
-    //    if (g.prog_on == 0  && g.t - g.t_SSR > DT_SSR_MAX)
-    if (g.prog_on == 0  && g.t - t_last_serial > DT_SSR_MAX)
+    if (g.prog_on == 0  && g.t - g.t_SSR > DT_SSR_MAX)
     {
       g.alarm_ini = g.alarm;
       g.alarm = PROG;

@@ -5,6 +5,19 @@
 void display()
 {
 
+/*
+if (g.t - t_temp > 100)
+{
+  t_temp = g.t;
+  lcd.clear();
+  lcd.print((int)g.alarm);
+  lcd.print(",");
+  lcd.print(g.prog_on);
+  lcd.print(",");
+  lcd.print(g.t_SSR);
+  return;
+}
+*/
   if (g.alarm == PROG)
     return;
 
@@ -120,6 +133,9 @@ void display()
     }
 
     g.refresh_display = 0;
+    //!!!
+ //       lcd.setCursor(0, 0);
+ //   lcd.print((int)g.alarm);
   }
 
 

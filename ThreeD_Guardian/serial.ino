@@ -162,9 +162,3 @@ void serial()
 }
 
 
-
-void serialEvent()
-{
-  t_last_serial = g.t;
-}
-

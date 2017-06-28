@@ -32,7 +32,7 @@ void initialize(byte factory_reset)
     // Reading the data from EEPROM:
     EEPROM_get();
     // Autosaving the trained data to a copy in EEPROM at each boot time (only in TRAINING mode):
-    if (g.alarm = TRAINING)
+    if (g.alarm == TRAINING)
       for (byte i = 0; i < N_SENSORS; i++)
       {
         EEPROM.put(ADDR_DATA1 + g.addr_tr[i] - ADDR_DATA, sensor[i].train);
