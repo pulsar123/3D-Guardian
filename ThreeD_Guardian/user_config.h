@@ -2,10 +2,6 @@
   File containing all user-configurable input parameters. It is read once, inside config.h file.
 */
 
-// If defined, the serial interfaced is used to continuously print out the sensor data (instead of communicating with the ESP board).
-// The physical serial connection between the two boards should be disabled.
-//#define DEBUG
-
 // +++++++++++++++++++++++++  Pins  +++++++++++++++++++++++++++++
 // Assumes we are using Arduino Nano
 // ATTENTION: in Arduino Nano, pins A6 and A7 cannot be used as digital pins (only as analogue input pins)
@@ -84,6 +80,7 @@ const long int STORE_DT = 60000; // How often to store sensor data to EEPROM, ms
 
 // Display/keys stuff:
 const long int SCREEN0_DT = 15000; // Time out after a key release to default screen, ms
+const long int DT_REFRESH = 500; // How often to refresh a non-zero screen
 const long int KEYS_DT = 10; //  Read keys every this many ms
 const long int N_KEY_COUNT = 10; // Accept a key press if it was continuously read this many times
 const long int N_KEY_START = 100; // After this many continuous reads of a key, start the key auto-repeating mode

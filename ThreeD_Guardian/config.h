@@ -240,6 +240,7 @@ struct global
   long int store_t0; // last time data were stored to EEPROM
 
   byte refresh_display; // 1 if we need to refresh display in the current loop; 0 otherwise
+  long int t_refresh; // the last time a non-zero screen was refreshed
 
   long int t; // current time in us
   long int t0_init; // Bootup time, us

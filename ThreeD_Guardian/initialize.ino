@@ -78,10 +78,6 @@ void initialize(byte factory_reset)
       // Index of the SSR temperature "sensor":
       g.i_SSR = i;
     }
-#ifdef DEBUG
-    // No initial sensor read delay in DEBUG mode:
-    sensor[i].init_delay = 0;
-#endif
   }
 
 
@@ -93,9 +89,6 @@ void initialize(byte factory_reset)
   g.fan_mode_old = g.fan_mode;
   g.resistance = 0;
 
-#ifdef DEBUG
-  Serial.println("");
-#endif
 
   return;
 }

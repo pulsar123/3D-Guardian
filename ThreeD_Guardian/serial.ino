@@ -44,7 +44,6 @@ void serial()
   //  if (g.t - g.t_SSR > DT_SSR_MAX)
   //    return;
 
-#ifndef DEBUG
   // In DEBUG mode, we use serial to print sensor data regularly, instead of communicating with ESP board
 
   // Serial reception:
@@ -156,7 +155,6 @@ void serial()
     Serial.print(g.buffer);
   }
 
-#endif // DEBUG  
 
   return;
 }

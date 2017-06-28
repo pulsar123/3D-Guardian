@@ -12,6 +12,12 @@ void cleanup()
       sensor[i].on = 1;
   }
 
+  // Refreshing the screen regularly (except in the main screen=0)
+  if (g.t - g.t_refresh > DT_REFRESH && g.screen != 0)
+  {
+    g.t_refresh = g.t;
+    g.refresh_display = 1;
+  }
 
 
   if (g.t - g.t0_init > PROG_INIT)
@@ -28,7 +34,7 @@ void cleanup()
       g.screen = 0;
       g.exit_menu = 1;
       g.refresh_display = 1;
- 
+
     }
     // If no serial communication for > DT_SSR_MAX ms, we are switching to the PROG mode:
     if (g.prog_on == 0  && g.t - g.t_SSR > DT_SSR_MAX)
@@ -38,9 +44,9 @@ void cleanup()
       g.prog_on = 1;
       g.prog_led_t0 = g.t;
       // Shutting down the fan:
-//      g.case_clearing = 0;
-//      g.duty = 0;
-//      update_duty();
+      //      g.case_clearing = 0;
+      //      g.duty = 0;
+      //      update_duty();
       lcd.clear();
       lcd.print("Programming");
     }

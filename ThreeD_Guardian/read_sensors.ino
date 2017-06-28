@@ -146,19 +146,6 @@ void read_sensors ()
         sensor[i].i = 0;
         sensor[i].sum = 0;
 
-#ifdef DEBUG
-        /*
-                if (i == 0)
-                {
-                  Serial.print(g.t);
-                  Serial.print(" ");
-                }
-                Serial.print(sensor[i].avr);
-                Serial.print(" ");
-                if (i == N_SENSORS - 1)
-                  Serial.println("");
-        */
-#endif
 
       }
     } // if (sensor[i].on && g.t - sensor[i].t0 > SENS_DT)

@@ -108,6 +108,7 @@ void setup()
   // Initiating the LCD library (LCD1602: 16 characters x 2 lines):
   lcd.begin(16, 2);
   g.refresh_display = 1;
+  g.t_refresh = g.t;
   g.screen = 0;
   g.exit_menu = 0;
   g.menu_id = g.default_id;
@@ -141,7 +142,6 @@ void setup()
   g.t_SSR = g.t - DT_SSR_MAX - 1;
   g.prog_led_t0 = g.t;
   // The serial connection to ESP8266 controller, for the WiFi interface:
-  // (In DEBUG mode it is used to print sensor data to PC instead)
   Serial.begin(115200);
 
   // Initializing the menu items (this changes all ids in MenuItem[] structures)
