@@ -22,7 +22,7 @@ void callback(char* topic, byte* payload, unsigned int length)
   }
 
   // Training/Guarding mode toggle:
-  if (strcmp(topic, MQTT"/training/switch") == 0)
+  if (strcmp(topic, MQTT"/mode_toggle/switch") == 0)
   {
     if ((char)payload[0] == '1')
     {

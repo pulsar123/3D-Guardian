@@ -52,6 +52,8 @@ void setup()
   delay(1);
   digitalWrite(STEP_PIN, LOW);
   g.no_sensors = 0;
+//  int Raw_min = 1025;
+//  int Raw_max = -1;
   for (byte i = 0; i < N_SENSORS; i++)
   {
     if (sensor[i].type == 0)
@@ -63,7 +65,7 @@ void setup()
       pinMode(sensor[i].pin, INPUT);
       pinMode(sensor[i].pin2, INPUT);
     }
-    else
+    else if (sensor[i].type == 1 || sensor[i].type == 2)
       // Internal pullup resistor for pins used for thermistors:
     {
       pinMode(sensor[i].pin, INPUT_PULLUP);
@@ -72,8 +74,14 @@ void setup()
       {
         int Raw = analogRead(sensor[i].pin);
         // The sign that the cable is disconnected (the pin pulled high internally):
-        if (Raw > 1022)
+        if (Raw > 950)
           g.no_sensors = 1;
+/*
+        if (Raw < Raw_min)
+          Raw_min = Raw;
+        if (Raw > Raw_max)
+          Raw_max = Raw;
+*/
       }
     }
   }
@@ -158,6 +166,13 @@ void setup()
   // Initializing the menu items (this changes all ids in MenuItem[] structures)
   menu_init();
 
+/*
+lcd.clear();
+lcd.print(Raw_min);
+lcd.print(" ");
+lcd.print(Raw_max);
+delay(10000);
+*/
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

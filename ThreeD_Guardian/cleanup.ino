@@ -12,8 +12,8 @@ void cleanup()
       sensor[i].on = 1;
   }
 
-  // Refreshing the screen regularly (except in the main screen=0)
-  if (g.t - g.t_refresh > DT_REFRESH && g.screen != 0)
+  // Refreshing the screen regularly (only for screen>0) 
+  if (g.t - g.t_refresh > DT_REFRESH && g.screen > 0)
   {
     g.t_refresh = g.t;
     g.refresh_display = 1;

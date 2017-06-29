@@ -91,19 +91,27 @@ void serial()
             digitalWrite(SSR_PIN, 0);
           }
 
-          else if (g.case_clearing == 0 && strncmp(&g.buffer[g.i_command[i]], "C", 1) == 0)
+          else if (strncmp(&g.buffer[g.i_command[i]], "C", 1) == 0)
             // Clearing the case
           {
             clear_the_case();
+            g.refresh_display = 1;
           }
 
           else if (strncmp(&g.buffer[g.i_command[i]], "M", 1) == 0)
             // Training / Guarding mode toggle
           {
             if (g.alarm == TRAINING)
+            {
               training (0);
+              g.alarm = GUARDING;
+            }
             else
+            {
               training (1);
+              g.alarm = TRAINING;
+            }
+            g.refresh_display = 1;
           }
         }
 

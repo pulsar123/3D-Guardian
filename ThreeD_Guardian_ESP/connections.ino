@@ -35,6 +35,7 @@ void connections()
     {
       client.subscribe(MQTT"/clear_case/switch");
       client.subscribe(MQTT"/shut_down/switch");
+      client.subscribe(MQTT"/mode_toggle/switch");
       client.subscribe("openhab/start");
       MQTT_on = 1;
     }
