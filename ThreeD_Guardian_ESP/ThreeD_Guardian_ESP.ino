@@ -55,6 +55,9 @@ void setup()
   panic = 0;
   timeout = 0;
   blink_state = 0;
+  first_loop = 1;
+  no_cable = 0;
+  nocable_step = 0;
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -78,5 +81,7 @@ void loop()
   mqtt();
 
   // LED warning:
-//  LED();
+  LED();
+
+  first_loop = 0;
 }

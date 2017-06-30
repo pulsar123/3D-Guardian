@@ -269,6 +269,8 @@ struct global
 
   byte LEDy_state; // Yellow LED state
   long int prog_led_t0; // Last time the yellow LED state changed (in blinking - PROG - mode)
+  long int nosensors_led_t0; // last time the ywllow led state was re-assessed in no-sensors mode
+  byte nosensors_step; // step in the yellow led flashing sequence (1...6), in no-sensors mode
 
   long int serial_in_t0; // Last time serial communication was received
   long int serial_out_t0; // Last time serial communication was sent

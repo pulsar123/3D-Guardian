@@ -131,3 +131,4 @@ const int N_SERIAL_MAX = 10; // Every this many short serial out communications 
 const long int DT_SSR_MAX = 4000; // If the SSR temperature hasn't been received from ESP for that many ms, the serial connection is presumed to have been broken, and we enter PROG mode
 const long int PROG_INIT = 3000; // Initial delay in ms when the controller is in PROG mode (no training or guarding)
 const long int PROG_LED_PERIOD = 250; // Half-period for yellow LED blinking in PROG mode (ms)
+const long int NOSENSORS_LED_PERIOD = 150; // The smallest time step in the yellow LED flashing in no-sensors mode (ms)

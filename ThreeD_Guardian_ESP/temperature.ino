@@ -4,10 +4,13 @@ void temperature()
   if (t - t_a0 > DT_TH)
   {
     float Raw = (float)analogRead(TH_PIN);
+    // Detecting a disconnected cable to the SSR unit at boo time:
+    if (first_loop && Raw > 950)
+      no_cable = 1;
     float R;
     // Thermistor resistance (assuming it is used with a pullup resistor), in Ohms:
     R = R_PULL * (Raw - A0_LOW) / (A0_HIGH - Raw);
-    // Correcting for the internal pulldown resistor on A0 pin, with R_INETRNAL value:
+    // Correcting for the internal pulldown resistor on A0 pin, with R_INTERNAL value:
     R = 1.0 / (1.0 / R - 1.0 / R_INTERNAL);
     // Temperature (Celsius):
     float T = 1.0 / (TH_A + TH_B * log(R)) - 273.15;

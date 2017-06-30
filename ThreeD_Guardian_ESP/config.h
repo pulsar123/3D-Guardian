@@ -41,7 +41,7 @@ const int A0_LOW = 1;
 
 const long SERIAL_DT = 100;  // How frequently incoming serial communication is to be checked (ms)
 const long SERIAL_TIMEOUT = 2000; // Maximum allowed number of ms with no received serial communications; LED starts blinking if it is exceeded
-const long LED1_DT = 250; // Blinking interval in ms for LED1 when there is no serial connection
+const long LED1_DT = 150; // Blinking interval in ms for LED1 (when SSR cable is disconnected at boot time)
 const byte MAX_COMMAND = 20; // Maximum number of commands which can be received in a single serial communication:
 byte i_command[MAX_COMMAND]; // starting indexes of the incoming serial commands
 byte bytes[MAX_COMMAND]; // number of bytes in each command
@@ -73,3 +73,4 @@ volatile byte panic; // Needs to be volatile as it is used by an interrupt funct
 long int t_serial, t_led1, t_beacon;
 byte timeout;
 byte blink_state;
+byte first_loop, no_cable, nocable_step;

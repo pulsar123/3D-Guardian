@@ -1,33 +1,27 @@
 void LED()
-// Using LED for warnings - specifically if serial connection is not working (timed out)
+// Using LED for warnings
 {
 
-  // The timeout criterion:
-  if (t - t_serial > SERIAL_TIMEOUT)
+  if (no_cable)
+    // The SSR cable is disconnected - series of two green LED flashes
   {
-    if (timeout == 0)
-      t_led1 = t;
-
     if (t - t_led1 > LED1_DT)
-      // Every LED1_DT ms, alternate the state of LED1
     {
       t_led1 = t;
-      digitalWrite(LED1, blink_state);
-      blink_state = 1 - blink_state;
-    }
-
-    timeout = 1;
-  }
-
-  else
-  {
-    if (timeout == 1)
-      // We just exited  the warning  state, need to recover the prior LED1 state
+      nocable_step++;
+      if (nocable_step > 6)
+        nocable_step = 1;
+      // Setting up a two-flash sequence, with the gap between sequences = 2x gap between the two flashes
+      if (nocable_step == 1 || nocable_step == 3)
+        led1 = 1;
+      else if (nocable_step == 2 || nocable_step == 4)
+        led1 = 0;
+      else
+        return;
       digitalWrite(LED1, led1);
-
-    timeout = 0;
+    }
+    return;
   }
-
 
   return;
 }
