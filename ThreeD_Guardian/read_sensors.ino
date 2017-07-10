@@ -41,7 +41,7 @@ void read_sensors ()
           // Computing inverse resistance based on two raw voltage (V1_raw, V2_raw) and one current (x) measurements
           // For details see http://pulsar124.wikia.com/wiki/3D_Guardian#Resistance_sensor
         {
-          // If the resistance sensor hasn't been trained yet, we store the raw voltage as teh sensor value - to be used for zero voltage calibration from Menu:
+          // If the resistance sensor hasn't been trained yet, we store the raw voltage as the sensor value - to be used for zero voltage calibration from Menu:
           if (sensor[i].train.zero < 0)
           {
             x = (int)((V1_raw + V2_raw) / 2.0 + 0.5);

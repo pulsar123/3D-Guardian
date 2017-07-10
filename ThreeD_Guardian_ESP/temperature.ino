@@ -5,8 +5,9 @@ void temperature()
   {
     float Raw = (float)analogRead(TH_PIN);
     // Detecting a disconnected cable to the SSR unit at boo time:
-    if (first_loop && Raw > 950)
+    if (first_temp && Raw > 800)
       no_cable = 1;
+    first_temp = 0;
     float R;
     // Thermistor resistance (assuming it is used with a pullup resistor), in Ohms:
     R = R_PULL * (Raw - A0_LOW) / (A0_HIGH - Raw);
@@ -25,7 +26,7 @@ void temperature()
       sum_T = 0.0;
 
       if (T_int < 0)
-        T_int = 0;        
+        T_int = 0;
       if (T_int > 999)
         T_int = 999;
       sprintf(str, MAGIC_EtoA"T%3d", T_int);
@@ -35,7 +36,7 @@ void temperature()
 
 #ifdef DEBUG
       // Transmit the A0_LOW and A0_HIGH parameters (raw A0 pin values when it is pulled down and up, respectively)
-      //      client.publish("TEST/1", itoa(analogRead(TH_PIN)));
+      client.publish("TEST/1", itoa(analogRead(TH_PIN), debug, 10));
 #endif
     }
   }

@@ -42,12 +42,13 @@ void  serial_receive()
   int i;
 
 // Sending regular beacon signals to Arduino over serial:
+/*
   if (t - t_beacon > BEACON_DT)
   {
     t_beacon = t;
     Serial.print("@");
   }
-  
+*/
 
   if (t - t0 > SERIAL_DT)
   {
@@ -73,7 +74,7 @@ void  serial_receive()
             // We have received at least one full packet at this point; it's time to process and send it to mqtt
           {
 #ifdef DEBUG
-            strncpy (debug, packet, i_ser + 1); debug[i_ser + 1] = '\0'; client.publish("TEST/0", debug);
+//            strncpy (debug, packet, i_ser + 1); debug[i_ser + 1] = '\0'; client.publish("TEST/0", debug);
 #endif
 
             // i counts chars in the current packet:

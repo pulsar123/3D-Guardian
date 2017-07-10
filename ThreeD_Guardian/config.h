@@ -108,8 +108,6 @@ void menu_T_target (byte mode, byte line);
 void menu_dt_case (byte mode, byte line);
 void menu_manual_fan (byte mode, byte line);
 void menu_zero_voltage (byte mode, byte line);
-//void menu_train_dump (byte mode, byte line);
-//void menu_train_load (byte mode, byte line);
 void menu_init_all (byte mode, byte line);
 void menu_init_one (byte mode, byte line);
 void menu_load_data (byte mode, byte line);
@@ -144,13 +142,11 @@ struct MenuItem_struc MenuItem[N_MENU] = {
   {.name = "Fan mode",       .id =  8, .prev_id =    7, .next_id = NONE, .up_id =    2, .down_id = NONE, .func = menu_fan_control},
 
   {.name = "On/off",         .id =  4, .prev_id = NONE, .next_id =    5, .up_id =    1, .down_id = NONE, .func = menu_train_onoff},
-  {.name = "Update",         .id =  5, .prev_id =    4, .next_id =   12, .up_id =    1, .down_id = NONE, .func = menu_update_train},
-  {.name = "Init voltage",   .id = 12, .prev_id =    5, .next_id =   18, .up_id =    1, .down_id = NONE, .func = menu_zero_voltage},
-  {.name = "Re-init",        .id = 18, .prev_id =   12, .next_id =   21, .up_id =    1, .down_id =   19},
+  {.name = "Update",         .id =  5, .prev_id =    4, .next_id =   18, .up_id =    1, .down_id = NONE, .func = menu_update_train},
+  {.name = "Re-init",        .id = 18, .prev_id =    5, .next_id =   21, .up_id =    1, .down_id =   19},
   {.name = "Load data",      .id = 21, .prev_id =   18, .next_id =   22, .up_id =    1, .down_id = NONE, .func = menu_load_data},
-  {.name = "Save data",      .id = 22, .prev_id =   21, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_save_data},
-//  {.name = "Train dump",     .id = 16, .prev_id =   18, .next_id =   17, .up_id =    1, .down_id = NONE, .func = menu_train_dump},
-//  {.name = "Train load",     .id = 17, .prev_id =   16, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_train_load},
+  {.name = "Save data",      .id = 22, .prev_id =   21, .next_id =   12, .up_id =    1, .down_id = NONE, .func = menu_save_data},
+  {.name = "Init voltage",   .id = 12, .prev_id =   22, .next_id = NONE, .up_id =    1, .down_id = NONE, .func = menu_zero_voltage},
 
   {.name = "T_target",       .id = 10, .prev_id = NONE, .next_id =   11, .up_id =    3, .down_id = NONE, .func = menu_T_target},
   {.name = "Fan time",       .id = 11, .prev_id =   10, .next_id =   23, .up_id =    3, .down_id = NONE, .func = menu_dt_case},
@@ -158,8 +154,8 @@ struct MenuItem_struc MenuItem[N_MENU] = {
   {.name = "Reset",          .id =  6, .prev_id =   23, .next_id = NONE, .up_id =    3, .down_id = NONE, .func = menu_factory_reset},
 
   // Third level
-  {.name = "All sensors",    .id = 19, .prev_id = NONE, .next_id =   20, .up_id =   18, .down_id = NONE, .func = menu_init_all},
-  {.name = "One sensor",     .id = 20, .prev_id =   19, .next_id = NONE, .up_id =   18, .down_id = NONE, .func = menu_init_one}
+  {.name = "One sensor",     .id = 19, .prev_id = NONE, .next_id =   20, .up_id =   18, .down_id = NONE, .func = menu_init_one},
+  {.name = "All sensors",    .id = 20, .prev_id =   19, .next_id = NONE, .up_id =   18, .down_id = NONE, .func = menu_init_all}
 };
 
 

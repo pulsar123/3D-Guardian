@@ -39,7 +39,7 @@ void setup()
   t0 = t;
   t_a0 = t;
   t_serial = t;
-  t_beacon = t;
+//  t_beacon = t;
   t_led1 = t;
   first_send = 1;
   first_packet = 1;
@@ -55,7 +55,7 @@ void setup()
   panic = 0;
   timeout = 0;
   blink_state = 0;
-  first_loop = 1;
+  first_temp = 1;
   no_cable = 0;
   nocable_step = 0;
 }
@@ -83,5 +83,4 @@ void loop()
   // LED warning:
   LED();
 
-  first_loop = 0;
 }

@@ -5,9 +5,12 @@ void connections()
   if (WiFi_on == 0 && WiFi.status() == WL_CONNECTED)
   {
     WiFi_on = 1;
-    // Turning the LED1 on when WiFi is connected:
-    led1 = HIGH;
-    digitalWrite(LED1, led1);
+    if (!no_cable)
+    {
+      // Turning the LED1 on when WiFi is connected:
+      led1 = HIGH;
+      digitalWrite(LED1, led1);
+    }
   }
 
   if (WiFi_on == 1 && WiFi.status() != WL_CONNECTED)
@@ -17,8 +20,11 @@ void connections()
     MQTT_on = 0;
     mqtt_init = 1;
     WiFi.begin(ssid, password);
-    led1 = LOW;
-    digitalWrite(LED1, led1);
+    if (!no_cable)
+    {
+      led1 = LOW;
+      digitalWrite(LED1, led1);
+    }
   }
 
   if (WiFi_on == 1 && !client.connected())
