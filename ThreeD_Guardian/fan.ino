@@ -17,7 +17,7 @@ void fan()
   }
 
 
-  if (g.fan_mode == 0 && g.duty > 0)
+  if (g.fan_mode == 0 || g.fan_mode == 4 && g.duty > 0)
     // Fan off
   {
     g.duty = 0;

@@ -52,8 +52,16 @@ void read_sensors ()
             V1_raw = V1_raw - sensor[i].train.zero;
             V2_raw = V2_raw - sensor[i].train.zero;
             if (V1_raw < sensor[i].V_crit_raw || V2_raw < sensor[i].V_crit_raw)
+            {
+              if (g.fan_mode==4 && g.t_bed != 0 && g.case_clearing == 0 && g.t - g.t_bed > DT_BED)
+              // Initiating automatic case clearing at the end of the print
+              {
+                g.t_bed = 0;
+                clear_the_case();
+              }
               // Either first or second voltage measurement is bad (<V_crit), so skipping this resistance measurement
               continue;
+            }
             if (V1_raw > V2_raw)
               Vmax_raw = V1_raw;
             else
@@ -63,6 +71,7 @@ void read_sensors ()
             x = (int)(512 * R_BED * sensor[i].divider / sensor[i].scaler * (float)I_raw / (float)Vmax_raw + 0.5);
             // Resistance was measured, so warnings/alarms are now allowed for resistance sensor:
             g.resistance = 1;
+            g.t_bed = g.t;  // Memorizing the last moment when the bed was on (to be used for automatic case clearing at the end of the print)
           }
 #ifdef DEBUG
           Serial.print("R ");

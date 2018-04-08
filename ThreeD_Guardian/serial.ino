@@ -82,13 +82,13 @@ void serial()
       {
         if (g.alarm != PROG)
         {
-          if (g.printer == 1 && strncmp(&g.buffer[g.i_command[i]], "S", 1) == 0)
+          if (strncmp(&g.buffer[g.i_command[i]], "S", 1) == 0)
             // Shutting down the printer (not an alarm):
           {
-            g.printer = 0;
+            g.printer = 1 - g.printer;
+            digitalWrite(SSR_PIN, g.printer);
             g.refresh_display = 1;
             g.case_clearing = 0;
-            digitalWrite(SSR_PIN, 0);
           }
 
           else if (strncmp(&g.buffer[g.i_command[i]], "C", 1) == 0)

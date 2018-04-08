@@ -277,7 +277,7 @@ void menu_fan_control (byte mode, byte line)
       break;
 
     case 2:
-      if (g.new_value < 3)
+      if (g.new_value < 4)
         g.new_value++;
       break;
 
@@ -302,8 +302,10 @@ void menu_fan_control (byte mode, byte line)
     lcd.print("  Auto");
   else if (g.new_value == 2)
     lcd.print("Manual");
-  else
+  else if (g.new_value == 3)
     lcd.print("    On");
+  else
+    lcd.print("AClear");  // Auto clear case (at the end of the print; DT_BED ms after printing finished)
 
   return;
 }

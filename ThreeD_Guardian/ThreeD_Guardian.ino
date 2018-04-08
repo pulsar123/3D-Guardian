@@ -6,6 +6,7 @@
   This code is for the Arduino Nano part.
 
   Designed by Sergey Mashchenko
+  
 
 */
 
@@ -97,6 +98,7 @@ void setup()
 
   g.t = millis();
   g.t0_init = g.t;
+  g.t_bed = 0;
 
   // Case fan stuff (initially off):
   g.duty = 0;

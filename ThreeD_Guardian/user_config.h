@@ -112,6 +112,7 @@ const float FAN_SCALE = 10.0; // Sensitivity of the fan; change in fan's duty cy
 const byte MAX_DUTY = 255; // Maxium allowed fan's duty cycle; can be 0...255
 const long int FAN_DT = SENS_DT * SENS_N; // Time interval to update the fan's speed = time interval for temperature recalculations
 const float FAN_HYST = 0.5; // Fan's hysteresis, in Celcius (temperature is now allowed to drift beyond T_target+-FAN_HYST)
+const unsigned long int DT_BED = 3600000; // This many ms after the bed heating turns off, case clearing will automatically start
 
 // Stepper motor (exhaust outlet open/close) stuff
 // Number of full steps to take when going from the passive default (closed) to the active open state. For the stepper motors

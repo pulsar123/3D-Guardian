@@ -238,8 +238,8 @@ struct global
   byte refresh_display; // 1 if we need to refresh display in the current loop; 0 otherwise
   long int t_refresh; // the last time a non-zero screen was refreshed
 
-  long int t; // current time in us
-  long int t0_init; // Bootup time, us
+  long int t; // current time in ms
+  long int t0_init; // Bootup time, ms
   byte key; // Currently pressed button (O..5)
   byte key_old; // Key pressed at the previous arduino loop
   byte key_pressed; // 1 if a key was just pressed; 0 otherwise
@@ -251,7 +251,7 @@ struct global
   long int sp_t0; // Time of the last buzzer state change
   byte sp_state; // The buzzer state (0/1)
 
-  byte fan_mode; // Fan mode: 0: off; 1: auto (thermostat); 2: on; saved in EEPROM
+  byte fan_mode; // Fan mode: 0: off; 1: auto (thermostat); 2: manual; 3: on; 4: auto clear case after the print; saved in EEPROM
   byte fan_mode_old; // A copy of fan_mode
   byte case_clearing; // A special fan mode: running at maximum duty for g.dt_case seconds (to clear the cabinet of fumes after the printing)
   int dt_case; // Number of seconds for the case_clearing mode; saved in EEPROM
@@ -288,6 +288,7 @@ struct global
 
   int resistance_sensor; // The ID of the resistance sensor (type=3)
   byte resistance; // 0: if resistance hasn't been measured yet since reboot/reset (because bed wasn't heated yet); 1: was measured at least once
+  unsigned long int t_bed; // last time the bed voltage was on; 0 if never (and initially)
 
   byte printer; // 0/1 if the printer is off/on
   byte bad_sensor; // The id of the sensor - biggest offender when a warning is issued
