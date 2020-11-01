@@ -5,9 +5,9 @@ void LED()
   if (no_cable)
     // The SSR cable is disconnected - series of two green LED flashes
   {
-    if (t - t_led1 > LED1_DT)
+    if (millis() - t_led1 > LED1_DT)
     {
-      t_led1 = t;
+      t_led1 = millis();
       nocable_step++;
       if (nocable_step > 6)
         nocable_step = 1;

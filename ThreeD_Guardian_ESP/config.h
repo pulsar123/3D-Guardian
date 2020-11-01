@@ -7,6 +7,7 @@
 //const char* mqtt_server = "xxxxxx";
 
 //#define DEBUG
+#define NO_INTERRUPTS  // If interrupts are not working for som reason
 
 #include "private.h"
 
@@ -61,7 +62,7 @@ char packet_old[BUF_SIZE], packet[BUF_SIZE];
 char debug[BUF_SIZE];
 char str[10];
 byte led1;
-long t, t0, t_a0;
+long t0, t_a0;
 byte first_send, first_packet;
 int i_ser;
 char s_char;
@@ -71,6 +72,9 @@ byte WiFi_on, MQTT_on;
 byte mqtt_init;
 volatile byte panic; // Needs to be volatile as it is used by an interrupt function
 long int t_serial, t_led1, t_beacon;
+#ifdef NO_INTERRUPTS
+long int t_panic;
+#endif
 byte timeout;
 byte blink_state;
 byte first_temp, no_cable, nocable_step;

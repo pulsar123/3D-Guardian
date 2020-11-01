@@ -5,6 +5,8 @@
 #ifndef _3D_GUARDIAN_H
 #define _3D_GUARDIAN_H
 
+//#define NO_ESP  // For debugging, when ESP is not available
+
 // Structure for writing to/reading from EEPROM of a single sensor data in training mode. In guarding mode, this data is only stored in RAM, not in EEPROM.
 // The EEPROM data will be updated (written to EEPROM) every STORE_DT ms (currently 1 min)
 struct sensor_EEPROM_struc
@@ -262,6 +264,7 @@ struct global
   long int fan_t0; // last time fan's speed was checked/changed
   int T_target; // the target enclosure temperature in Celsius; saved in EEPROM
   byte manual_fan; // The fan speed in the manual fan mode (1...254); only makes sense when PWM is used
+  byte aclear_done; // Normally 0; 1 when we finished clearing in AClear mode
 
   byte LEDy_state; // Yellow LED state
   long int prog_led_t0; // Last time the yellow LED state changed (in blinking - PROG - mode)

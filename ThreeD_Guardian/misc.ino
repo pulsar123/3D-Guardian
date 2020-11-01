@@ -229,7 +229,7 @@ void clear_the_case ()
   g.case_clearing = 1 - g.case_clearing;
   if (g.case_clearing == 1)
   {
-    g.case_t0 = g.t;
+    g.case_t0 = millis();
     g.fan_mode_old = g.fan_mode;
     g.fan_mode = 3;
   }
@@ -320,7 +320,7 @@ void alarm_actions()
   // Shutting down the printer:
   digitalWrite(SSR_PIN, 0);
   // Just in case:
-  g.sp_t0 = g.t;
+  g.sp_t0 = millis();
   g.sp_state = 0;
   // Shutting down the fan:
   g.case_clearing = 0;

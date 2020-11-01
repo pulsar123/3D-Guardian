@@ -47,9 +47,9 @@ void serial()
   // In DEBUG mode, we use serial to print sensor data regularly, instead of communicating with ESP board
 
   // Serial reception:
-  if (g.t - g.serial_in_t0 > SERIAL_IN_DT)
+  if (millis() - g.serial_in_t0 > SERIAL_IN_DT)
   {
-    g.serial_in_t0 = g.t;
+    g.serial_in_t0 = millis();
     int N_command = 0;
     int i0;
 
@@ -122,7 +122,7 @@ void serial()
           g.buf4[3] = '\0';
           g.T_SSR = atoi(g.buf4);
           g.SSR_temp = 1;
-          g.t_SSR = g.t;
+          g.t_SSR = millis();
         }
 
       }
@@ -131,9 +131,9 @@ void serial()
 
 
   // Serial transmission:
-  if (g.alarm != PROG && g.t - g.serial_out_t0 > SERIAL_OUT_DT)
+  if (g.alarm != PROG && millis() - g.serial_out_t0 > SERIAL_OUT_DT)
   {
-    g.serial_out_t0 = g.t;
+    g.serial_out_t0 = millis();
     g.N_serial++;
 
     // Starting all outgoing messages with this magic prefix:

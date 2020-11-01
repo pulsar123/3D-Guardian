@@ -35,24 +35,14 @@ void  serial_receive()
    important status updates) or full length (status updates + full update from all sensors). We need to send all
    the received parameters from all packets to MQTT, but only for the parameters which changed their values since
    the last send.
-
-   Now also sending beacon signals to Arduino over serial.
 */
 {
   int i;
 
-// Sending regular beacon signals to Arduino over serial:
-/*
-  if (t - t_beacon > BEACON_DT)
-  {
-    t_beacon = t;
-    Serial.print("@");
-  }
-*/
 
-  if (t - t0 > SERIAL_DT)
+  if (millis() - t0 > SERIAL_DT)
   {
-    t0 = t;
+    t0 = millis();
 
     if (Serial.available() > 0)
     {
@@ -137,7 +127,7 @@ void  serial_receive()
         i_ser++;
       } // while i_ser
 
-      t_serial = t;
+      t_serial = millis();
     }
   }
   return;

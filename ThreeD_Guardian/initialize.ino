@@ -41,10 +41,12 @@ void initialize(byte factory_reset)
 
   // Initially (first PROG_INIT ms) the controller is in PROG mode; it switches to the proper mode in cleanup()
   g.alarm_ini = g.alarm;
+#ifndef NO_ESP  
   g.alarm = PROG;
   g.prog_on = 1;
   lcd.clear();
   lcd.print("Programming");
+#endif
 
   // Resetting guarding sensor data after each reboot:
   for (byte i = 0; i < N_SENSORS; i++)
@@ -56,7 +58,7 @@ void initialize(byte factory_reset)
   for (byte i = 0; i < N_SENSORS; i++)
   {
     // Staggered sensor reading:
-    sensor[i].t0 = g.t + i * 100;
+    sensor[i].t0 = millis() + i * 100;
     sensor[i].avr = 0;
     sensor[i].old = 0;
     sensor[i].sum = 0;

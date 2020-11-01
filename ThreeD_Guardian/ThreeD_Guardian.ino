@@ -107,6 +107,7 @@ void setup()
   g.fan_t0 = g.t;
   g.case_clearing = 0;
   g.case_t0 = g.t;
+  g.aclear_done = 0;
 
   // Stepper motor (exhaust opening) stuff:
   g.motor = 0;
@@ -165,7 +166,7 @@ void setup()
   g.nosensors_led_t0 = g.t;
   g.nosensors_step = 0;
   // The serial connection to ESP8266 controller, for the WiFi interface:
-  Serial.begin(115200);
+  Serial.begin(115200); // 115200
 
   // Initializing the menu items (this changes all ids in MenuItem[] structures)
   menu_init();

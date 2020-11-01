@@ -8,9 +8,9 @@ void sound()
   if (g.alarm == PROG)
     // We are in Programming mode - flashing yellow LED regularly
   {
-    if (g.t - g.prog_led_t0 > PROG_LED_PERIOD)
+    if (millis() - g.prog_led_t0 > PROG_LED_PERIOD)
     {
-      g.prog_led_t0 = g.t;
+      g.prog_led_t0 = millis();
       g.LEDy_state = 1 - g.LEDy_state;
       digitalWrite(LEDY_PIN, g.LEDy_state);
     }
@@ -20,9 +20,9 @@ void sound()
   if (g.no_sensors)
     // The printer cable is disconnected - series of two yellow LED flashes
   {
-    if (g.t - g.nosensors_led_t0 > NOSENSORS_LED_PERIOD)
+    if (millis() - g.nosensors_led_t0 > NOSENSORS_LED_PERIOD)
     {
-      g.nosensors_led_t0 = g.t;
+      g.nosensors_led_t0 = millis();
       g.nosensors_step++;
       if (g.nosensors_step > 6)
         g.nosensors_step = 1;
@@ -43,9 +43,9 @@ void sound()
 
   // Alarm sound:
   if (g.alarm == ALARM)
-    if (g.t - g.sp_t0 > SP_DT)
+    if (millis() - g.sp_t0 > SP_DT)
     {
-      g.sp_t0 = g.t;
+      g.sp_t0 = millis();
       // Flipping the speaker's state:
       g.sp_state = 1 - g.sp_state;
       // Sending the new state to the speaker:
@@ -55,13 +55,13 @@ void sound()
   // Warning sound (chirping):
   if (g.alarm == WARNING)
   {
-    if (g.t - g.sp_t0 > CHIRP_PERIOD && g.sp_state == 0)
+    if (millis() - g.sp_t0 > CHIRP_PERIOD && g.sp_state == 0)
     {
-      g.sp_t0 = g.t;
+      g.sp_t0 = millis();
       g.sp_state = 1;
       digitalWrite(SOUND_PIN, g.sp_state);
     }
-    if (g.t - g.sp_t0 > CHIRP_DT && g.sp_state == 1)
+    if (millis() - g.sp_t0 > CHIRP_DT && g.sp_state == 1)
     {
       g.sp_state = 0;
       digitalWrite(SOUND_PIN, g.sp_state);

@@ -16,9 +16,9 @@ void read_sensors ()
   for (byte i = 0; i < N_SENSORS; i++)
   {
     // Only reading each sensor once every SENS_DT ms. The *.on flag is used to establish an initial "warmup" delay for specific senors
-    if (sensor[i].on && g.t - sensor[i].t0 > SENS_DT)
+    if (sensor[i].on && millis() - sensor[i].t0 > SENS_DT)
     {
-      sensor[i].t0 = g.t;
+      sensor[i].t0 = millis();
 
       // Sensor type=4 is not real - these are SSR temperature values (C) received from ESP via serial every second
       if (sensor[i].type != 4)
@@ -53,7 +53,7 @@ void read_sensors ()
             V2_raw = V2_raw - sensor[i].train.zero;
             if (V1_raw < sensor[i].V_crit_raw || V2_raw < sensor[i].V_crit_raw)
             {
-              if (g.fan_mode==4 && g.t_bed != 0 && g.case_clearing == 0 && g.t - g.t_bed > DT_BED)
+              if (g.fan_mode==4 && g.t_bed != 0 && g.case_clearing == 0 && millis() - g.t_bed > DT_BED)
               // Initiating automatic case clearing at the end of the print
               {
                 g.t_bed = 0;
@@ -71,7 +71,7 @@ void read_sensors ()
             x = (int)(512 * R_BED * sensor[i].divider / sensor[i].scaler * (float)I_raw / (float)Vmax_raw + 0.5);
             // Resistance was measured, so warnings/alarms are now allowed for resistance sensor:
             g.resistance = 1;
-            g.t_bed = g.t;  // Memorizing the last moment when the bed was on (to be used for automatic case clearing at the end of the print)
+            g.t_bed = millis();  // Memorizing the last moment when the bed was on (to be used for automatic case clearing at the end of the print)
           }
 #ifdef DEBUG
           Serial.print("R ");

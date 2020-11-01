@@ -18,7 +18,7 @@ void motor ()
   // We need microsecond accuracy timer for the stepper motor control
   g.t_us = micros();
 
-  if (g.motor == 0 && g.duty > 0 && g.t - g.t_release > DT_RELEASE)
+  if (g.motor == 0 && g.duty > 0 && millis() - g.t_release > DT_RELEASE)
     // Initiating the motor as the fan's duty just became larger than zero, at least DT_RELEASE milliseconds after having been released the previous time
   {
     g.motor = 1;
@@ -52,7 +52,7 @@ void motor ()
     g.motor = 0;
     digitalWrite(SLEEP_PIN, LOW); // Disabling the torque
     // Memorizing the release time in milliseconds:
-    g.t_release = g.t;
+    g.t_release = millis();
   }
 
   return;

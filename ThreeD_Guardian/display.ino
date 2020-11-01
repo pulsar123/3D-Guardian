@@ -21,7 +21,7 @@ if (g.t - t_temp > 100)
   if (g.alarm == PROG)
     return;
 
-  if (g.screen != 0 && (g.t - g.key_t0 > SCREEN0_DT || g.exit_menu))
+  if (g.screen != 0 && (millis() - g.key_t0 > SCREEN0_DT || g.exit_menu))
     // Timing out to default screen, after SCREEN0_DT ms without a key press
   {
     g.screen = 0;
@@ -140,10 +140,10 @@ if (g.t - t_temp > 100)
 
 
   // Printing the clearing time every second:
-  if (g.case_clearing == 1 && g.alarm <= 0 && g.screen == 0 && (g.t - g.case_t0) % 1000 == 0)
+  if (g.case_clearing == 1 && g.alarm <= 0 && g.screen == 0 && (millis() - g.case_t0) % 1000 == 0)
   {
     lcd.setCursor(10, 0);
-    sprintf(g.buffer, "%3d", (g.t - g.case_t0) / 1000);
+    sprintf(g.buffer, "%3d", (millis() - g.case_t0) / 1000);
     lcd.print(g.buffer);
   }
 
@@ -155,7 +155,10 @@ if (g.t - t_temp > 100)
 char * display_fan (char * buf)
 {
   if (g.fan_mode > 0)
-    sprintf(buf, "%3d", g.duty_perc);
+    if (g.fan_mode==4 && g.aclear_done==1)
+      sprintf(buf, "CLR");
+      else
+      sprintf(buf, "%3d", g.duty_perc);
   else
     sprintf(buf, " --");
 

@@ -14,9 +14,9 @@ void read_LCD_buttons()
 
 
   // Reading buttons only once every KEYS_DT us:
-  if (g.t - g.keys_t0 > KEYS_DT)
+  if (millis() - g.keys_t0 > KEYS_DT)
   {
-    g.keys_t0 = g.t;
+    g.keys_t0 = millis();
 
     int adc_key_in = analogRead(BUTTONS_PIN);      // read the value from the sensor
     // Interpreting the analogue read from the LCD shield:
@@ -59,7 +59,7 @@ void read_LCD_buttons()
     if (g.key_pressed)
     {
       // Updating the time as long as a key is being pressed:
-      g.key_t0 = g.t;
+      g.key_t0 = millis();
 
       g.refresh_display = 1;
       switch (g.key)

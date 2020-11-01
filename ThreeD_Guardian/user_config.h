@@ -46,7 +46,7 @@ const byte BUTTONS_PIN = A0; // The analog input pin for the buttons on the disp
 const byte N_SENSORS = 7; // Number of sensors, including the SSR temperature received via serial interface from ESP board
 // Basic sensor data (they will be used in this order):
 struct sensor_struc sensor[N_SENSORS] = {
-  {name: "Smo", pin: A2, type: 0, init_delay: 600000}, // Smoke sensor (MQ-2; raw data)
+   {name: "Smo", pin: A2, type: 0, init_delay: 600000}, // Smoke sensor (MQ-2; raw data)
   {name: "CO ", pin: A3, type: 0, init_delay: 600000}, // CO sensor (MQ-8; raw data)
 //  {name: "Cur", pin: A7, type: 0, init_delay: 0}, // current sensor (ACS712; raw data)
 //  {name: "Vol", pin: A6, type: 0, init_delay: 0}, // current sensor (ACS712; raw data)
@@ -131,5 +131,6 @@ const long int SERIAL_OUT_DT = 500; // How frequently outgoing short serial comm
 const int N_SERIAL_MAX = 10; // Every this many short serial out communications send one long (full sensor update) one
 const long int DT_SSR_MAX = 5000; // If the SSR temperature hasn't been received from ESP for that many ms, the serial connection is presumed to have been broken, and we enter PROG mode
 const long int PROG_INIT = 15000; // Initial delay in ms when switching to PROG mode is ignored
+const long int PROG_MAX = 1800000; // After that many ms from rebooting, program mode is disabled
 const long int PROG_LED_PERIOD = 250; // Half-period for yellow LED blinking in PROG mode (ms)
 const long int NOSENSORS_LED_PERIOD = 150; // The smallest time step in the yellow LED flashing in no-sensors mode (ms)

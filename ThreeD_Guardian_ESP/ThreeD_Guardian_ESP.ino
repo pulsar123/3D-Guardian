@@ -28,19 +28,24 @@ void setup()
   pinMode(LED1, OUTPUT);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   // Panic button is handled by an interrupt function button():
-  attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), buttonIntr, FALLING); // FALLING as we only care about the initial button press moment
+  #ifndef NO_INTERRUPTS
+    attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), buttonIntr, FALLING); // FALLING as we only care about the initial button press moment
+  #endif
   led1 = LOW;
   digitalWrite(LED1, led1); //WiFi indicator (external LED)
-  Serial.begin(115200);
+  Serial.begin(115200); //115200
   WiFi.begin(ssid, password);
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
-  t = millis();
+  long t = millis();
   t0 = t;
   t_a0 = t;
   t_serial = t;
 //  t_beacon = t;
   t_led1 = t;
+#ifdef NO_INTERRUPTS
+  t_panic = t - DT_DEBOUNCE;
+#endif
   first_send = 1;
   first_packet = 1;
   i_ser = 0;
@@ -66,7 +71,7 @@ void loop()
 {
   connections();
 
-  t = millis();
+//  t = millis();
 
   // Checking the SSR temperature, and send it to Arduino over serial:
   temperature();

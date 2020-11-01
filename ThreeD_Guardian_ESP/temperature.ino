@@ -1,7 +1,7 @@
 void temperature()
 // Measuring the SSR's temperature, and disabling it if it's too hot
 {
-  if (t - t_a0 > DT_TH)
+  if (millis() - t_a0 > DT_TH)
   {
     float Raw = (float)analogRead(TH_PIN);
     // Detecting a disconnected cable to the SSR unit at boo time:
@@ -17,7 +17,7 @@ void temperature()
     float T = 1.0 / (TH_A + TH_B * log(R)) - 273.15;
     sum_T = sum_T + T;
     i_T++;
-    t_a0 = t;
+    t_a0 = millis();
     if (i_T == N_T)
     {
       T_avr = sum_T / N_T;
