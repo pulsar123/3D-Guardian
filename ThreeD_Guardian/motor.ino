@@ -12,18 +12,20 @@
 void motor ()
 {
 
-  if (g.alarm == PROG)
-    return;
+// A test - should fix the bug "lids are not opt initially when fan_mode=2 (manual fan)":
+//  if (g.alarm == PROG)
+//    return;
 
   // We need microsecond accuracy timer for the stepper motor control
   g.t_us = micros();
 
-  if (g.motor == 0 && g.duty > 0 && millis() - g.t_release > DT_RELEASE)
+  if (g.motor == 0 && g.duty > 0 && (g.open_lid==1 || millis() - g.t_release >= DT_RELEASE))
     // Initiating the motor as the fan's duty just became larger than zero, at least DT_RELEASE milliseconds after having been released the previous time
   {
     g.motor = 1;
+    g.open_lid = 0;
     // Motor will start turning after the specified delay, to ensure there is some negative pressure before opening the inlet and outlet:
-    g.t0_motor = g.t_us + MOTOR_DELAY_MS;
+    g.t0_motor = g.t_us + MOTOR_DELAY_US;
     digitalWrite(SLEEP_PIN, HIGH); // Enabling the torque
     delay(1); // Required after waking up
     // The timing for the first microstep (us):

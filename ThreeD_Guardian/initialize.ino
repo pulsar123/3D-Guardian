@@ -90,6 +90,7 @@ void initialize(byte factory_reset)
 
   g.fan_mode_old = g.fan_mode;
   g.resistance = 0;
+  g.case_clearing = 0;
 
 
   return;

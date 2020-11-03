@@ -265,6 +265,7 @@ struct global
   int T_target; // the target enclosure temperature in Celsius; saved in EEPROM
   byte manual_fan; // The fan speed in the manual fan mode (1...254); only makes sense when PWM is used
   byte aclear_done; // Normally 0; 1 when we finished clearing in AClear mode
+  byte open_lid; // Normally 0; set to 1 to immediately open the lid(s)
 
   byte LEDy_state; // Yellow LED state
   long int prog_led_t0; // Last time the yellow LED state changed (in blinking - PROG - mode)

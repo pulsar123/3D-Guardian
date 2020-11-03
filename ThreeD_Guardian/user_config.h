@@ -123,7 +123,7 @@ const int N_FULL_STEPS = 50; //44
 const int N_MICROSTEPS = 16;
 const float T_MOTOR = 0.5; // How many seconds a full (closed->opened) move takes
 const long int DT_RELEASE = 3000; // Number of milliseconds it takes the exhaust lid to settle down after having being released
-const long int MOTOR_DELAY_MS = 2000; // Both inlet and outlet motors will start moving that many ms after the exhaust fan starts running (to create negative pressure)
+const long int MOTOR_DELAY_US = 2000000; // Both inlet and outlet motors will start moving that many microseconds after the exhaust fan starts running (to create negative pressure)
 
 // Serial (ESP8266) stuff
 const long int SERIAL_IN_DT = 100; // How frequently incoming serial communication is to be checked (ms)

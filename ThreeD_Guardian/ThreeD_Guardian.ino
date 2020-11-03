@@ -113,6 +113,7 @@ void setup()
   g.motor = 0;
   g.t_release = -DT_RELEASE;
   g.step = 0;
+  g.open_lid = 0;
 
   // Buzzer stuff (initially off):
   g.sp_t0 = g.t;

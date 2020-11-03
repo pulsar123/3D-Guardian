@@ -56,17 +56,21 @@ void fan()
     g.aclear_done = 0;  // only matters when using AClear mode
     if (g.duty != g.manual_fan)
     {
+      if (g.duty == 0)
+        g.open_lid = 1; // Immediately open the lid
       g.duty = g.manual_fan;
       update_duty();
     }
   }
 
   else if (g.fan_mode == 3)
-    // Fan on
+    // Fan on at 100%
   {
     g.aclear_done = 0;  // only matters when using AClear mode
     if (g.duty < MAX_DUTY)
     {
+      if (g.duty == 0)
+        g.open_lid = 1; // Immediately open the lid
       g.duty = MAX_DUTY;
       update_duty();
     }
